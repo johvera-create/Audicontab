@@ -135,22 +135,33 @@ export const TICKER_ITEMS = [
 
 /* ---------------- Renta 2025 ---------------- */
 
-export const RENTA_MILESTONES = [
+export type RentaMilestone = {
+  day: string;
+  month: string;
+  icon: "calendar" | "invoice" | "check";
+  title: string;
+  desc: string;
+};
+
+export const RENTA_MILESTONES: RentaMilestone[] = [
   {
     day: "01",
-    month: "ABR",
+    month: "MAR",
+    icon: "calendar",
     title: "Inicio del proceso",
     desc: "Se abre la Operación Renta: revisamos tus antecedentes y proyectamos el resultado.",
   },
   {
     day: "08",
-    month: "ABR",
+    month: "MAR",
+    icon: "invoice",
     title: "Con devolución",
     desc: "Cierre para presentar con devolución anticipada por vía electrónica.",
   },
   {
     day: "25",
-    month: "ABR",
+    month: "MAR",
+    icon: "check",
     title: "Cierre del proceso",
     desc: "Último plazo para declarar sin devolución. Nosotros lo dejamos presentado antes.",
   },

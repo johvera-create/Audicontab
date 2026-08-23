@@ -52,6 +52,16 @@ export function PeopleIcon({ className, strokeWidth = 1.7 }: IconProps) {
   );
 }
 
+export function CalendarIcon({ className, strokeWidth = 1.7 }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={base(className)} aria-hidden="true">
+      <rect x="3.5" y="5" width="17" height="15.5" rx="1" stroke="currentColor" strokeWidth={strokeWidth} />
+      <path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" />
+      <path d="M8 13.5h3.5M8 16.5h6" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function CalendarCheckIcon({ className, strokeWidth = 1.7 }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={base(className)} aria-hidden="true">
