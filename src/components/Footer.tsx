@@ -1,4 +1,12 @@
-import { ADDRESS, CONTACT_EMAIL, NAV, QUILLOTA_COORDS, SERVICES, WHATSAPP_DISPLAY } from "../data/site";
+import {
+  ADDRESS,
+  CONTACT_EMAIL,
+  NAV,
+  QUILLOTA_COORDS,
+  SERVICES,
+  WHATSAPP_DISPLAY,
+  waLink,
+} from "../data/site";
 import { ArrowIcon, LogoMark, WhatsAppIcon } from "./icons";
 
 export default function Footer() {
@@ -26,9 +34,9 @@ export default function Footer() {
               Valparaíso. Tu contabilidad al día, tus plazos cumplidos.
             </p>
             <a
-              href="https://wa.me/56954247306"
+              href={waLink()}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="group mt-7 inline-flex items-center gap-3 border border-paper-50/20 px-5 py-3 font-mono text-[12px] uppercase tracking-[0.16em] text-paper-100 transition-all duration-300 hover:border-brass-400 hover:text-brass-300"
             >
               <WhatsAppIcon className="h-[18px] w-[18px] text-[#4ade80] transition-transform duration-300 group-hover:scale-110" />

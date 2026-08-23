@@ -1,4 +1,4 @@
-import { WHATSAPP_NUMBER } from "../data/site";
+import { waLink } from "../data/site";
 import { useScrollTop } from "../hooks/useMotion";
 import { WhatsAppIcon } from "./icons";
 
@@ -7,11 +7,9 @@ export default function WhatsAppFloat() {
 
   return (
     <a
-      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-        "Hola Audicontab, quiero información sobre sus servicios contables."
-      )}`}
+      href={waLink()}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       aria-label="Contáctanos por WhatsApp"
       className={`group fixed bottom-6 right-6 z-[60] transition-all duration-500 ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"

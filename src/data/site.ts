@@ -8,12 +8,22 @@ export const NAV = [
 
 export const WHATSAPP_NUMBER = "56954247306";
 export const WHATSAPP_DISPLAY = "+56 9 5424 7306";
+export const WHATSAPP_DEFAULT_MESSAGE =
+  "Hola Audicontab, me gustaría cotizar sus servicios.";
+
+/** Enlace oficial de WhatsApp (wa.me) — funciona en la app móvil y en WhatsApp Web. */
+export function waLink(message: string = WHATSAPP_DEFAULT_MESSAGE) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
 export const ADDRESS = "O'Higgins 480, oficina 15, Quillota";
 export const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=O%27Higgins+480+Quillota+Chile";
 
 export const QUILLOTA_COORDS = "32.88° S / 71.26° O";
 export const CONTACT_EMAIL = "johanvera589@gmail.com";
+
+/** Endpoint AJAX de FormSubmit: entrega los mensajes a CONTACT_EMAIL sin claves de API. */
+export const CONTACT_FORM_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
 
 const clp = new Intl.NumberFormat("es-CL", {
   style: "currency",

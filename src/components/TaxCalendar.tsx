@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {
-  WHATSAPP_NUMBER,
+  waLink,
   daysUntil,
   formatDay,
   formatMonthShort,
@@ -117,11 +117,11 @@ export default function TaxCalendar() {
             pueden variar según la terminación de tu RUT y resoluciones vigentes.
           </p>
           <a
-            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-              "Hola Audicontab, se me acerca un vencimiento tributario y necesito ayuda."
-            )}`}
+            href={waLink(
+              "Hola Audicontab, se me acerca un vencimiento tributario y me gustaría cotizar sus servicios."
+            )}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="group inline-flex shrink-0 items-center gap-3 border border-brass-400/70 px-6 py-3.5 font-mono text-[12px] font-semibold uppercase tracking-[0.14em] text-brass-300 transition-all duration-300 hover:bg-brass-400 hover:text-ink-950"
           >
             <WhatsAppIcon className="h-[18px] w-[18px] transition-transform duration-300 group-hover:scale-110" />

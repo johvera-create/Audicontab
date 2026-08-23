@@ -2,10 +2,12 @@ import { useState, type FormEvent } from "react";
 import {
   ADDRESS,
   CONTACT_EMAIL,
+  CONTACT_FORM_ENDPOINT,
   MAPS_URL,
   SERVICES,
   WHATSAPP_DISPLAY,
   WHATSAPP_NUMBER,
+  waLink,
 } from "../data/site";
 import {
   ArrowIcon,
@@ -42,27 +44,69 @@ const inputCls = (hasError: boolean) =>
 
 const labelCls = "mb-2 block font-mono text-[10.5px] font-semibold uppercase tracking-[0.24em] text-ink-600";
 
+type Status = "idle" | "sending" | "success" | "error";
+
 export default function Contact() {
   const [form, setForm] = useState<Form>(EMPTY);
   const [errors, setErrors] = useState<Errors>({});
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const set = (k: keyof Form) => (ev: { target: { value: string } }) => {
     setForm((f) => ({ ...f, [k]: ev.target.value }));
     setErrors((e) => ({ ...e, [k]: undefined }));
   };
 
-  const onSubmit = (ev: FormEvent) => {
+  const onSubmit = async (ev: FormEvent) => {
     ev.preventDefault();
     const e = validate(form);
     setErrors(e);
-    if (Object.keys(e).length === 0) setSent(true);
+    if (Object.keys(e).length > 0 || status === "sending") return;
+
+    setStatus("sending");
+    setErrorMsg("");
+    try {
+      // FormSubmit (AJAX) entrega el mensaje a CONTACT_EMAIL sin necesidad de claves de API.
+      const res = await fetch(CONTACT_FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          "Nombre completo": form.nombre.trim(),
+          "Email del cliente": form.email.trim(),
+          "Teléfono": form.telefono.trim(),
+          "Servicio de interés": form.servicio,
+          "Mensaje": form.mensaje.trim(),
+          _subject: `Nuevo mensaje del sitio — ${form.nombre.trim()}`,
+          _template: "table",
+          _captcha: "false",
+          _honey: "",
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || (data && data.success === "false")) {
+        throw new Error("send-failed");
+      }
+      setStatus("success");
+    } catch {
+      setStatus("error");
+      setErrorMsg(
+        "No pudimos enviar tu mensaje en este momento. Revisa tu conexión e inténtalo de nuevo, o escríbenos directamente:"
+      );
+    }
   };
 
-  const waText = encodeURIComponent(
-    `Hola Audicontab, soy ${form.nombre || "un interesado"}. Me interesa: ${
-      form.servicio || "asesoría contable"
-    }. ${form.mensaje}`
+  /** Respaldo: abre el correo del cliente con todos los datos ya redactados. */
+  const mailtoFallback = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+    `Cotización de ${form.servicio || "servicios contables"} — ${form.nombre || "consulta web"}`
+  )}&body=${encodeURIComponent(
+    `Nombre completo: ${form.nombre}\nEmail: ${form.email}\nTeléfono: ${form.telefono}\nServicio de interés: ${form.servicio}\n\nMensaje:\n${form.mensaje}`
+  )}`;
+
+  /** Continúa la conversación por WhatsApp con el contexto del formulario. */
+  const waContinue = waLink(
+    `Hola Audicontab, soy ${form.nombre || "un interesado"} y me gustaría cotizar: ${
+      form.servicio || "servicios contables"
+    }.${form.mensaje ? ` Detalle: ${form.mensaje}` : ""}`
   );
 
   return (
@@ -172,7 +216,7 @@ export default function Contact() {
             <Reveal delay={150} y={30}>
               <div className="relative border border-ink-900/15 bg-paper-50 shadow-[0_30px_70px_-34px_rgba(27,58,92,0.5)]">
                 <div className="h-1.5 w-full bg-brass-400" aria-hidden="true" />
-                {sent ? (
+                {status === "success" ? (
                   <div className="quote-in flex flex-col items-start px-8 py-12 md:px-12">
                     <span className="flex h-16 w-16 items-center justify-center border-2 border-brass-500 bg-brass-400/15 text-brass-600">
                       <CheckIcon className="h-8 w-8" />
@@ -181,16 +225,16 @@ export default function Contact() {
                       ¡Mensaje recibido, {form.nombre.split(" ")[0]}!
                     </h3>
                     <p className="mt-3 max-w-md text-[15.5px] leading-relaxed text-ink-600">
-                      Te contactaremos dentro de un día hábil al{" "}
-                      <strong className="text-ink-900">{form.telefono}</strong> o al correo{" "}
-                      <strong className="text-ink-900">{form.email}</strong>. Si prefieres,
+                      Tu mensaje ya está en nuestra bandeja de entrada. Te contactaremos dentro de
+                      un día hábil al <strong className="text-ink-900">{form.telefono}</strong> o al
+                      correo <strong className="text-ink-900">{form.email}</strong>. Si prefieres,
                       adelanta la conversación por WhatsApp:
                     </p>
                     <div className="mt-7 flex flex-wrap gap-4">
                       <a
-                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
+                        href={waContinue}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="group inline-flex items-center gap-2.5 bg-ink-900 px-6 py-3.5 font-mono text-[12px] font-semibold uppercase tracking-[0.14em] text-brass-300 transition-colors duration-300 hover:bg-ink-800"
                       >
                         <WhatsAppIcon className="h-[18px] w-[18px] text-[#4ade80]" />
@@ -199,7 +243,7 @@ export default function Contact() {
                       <button
                         onClick={() => {
                           setForm(EMPTY);
-                          setSent(false);
+                          setStatus("idle");
                         }}
                         className="border border-ink-900/25 px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] text-ink-700 transition-colors duration-300 hover:border-ink-900 hover:bg-ink-900 hover:text-paper-50"
                       >
@@ -224,6 +268,8 @@ export default function Contact() {
                         <input
                           id="nombre"
                           type="text"
+                          required
+                          autoComplete="name"
                           value={form.nombre}
                           onChange={set("nombre")}
                           placeholder="María González P."
@@ -238,6 +284,8 @@ export default function Contact() {
                         <input
                           id="email"
                           type="email"
+                          required
+                          autoComplete="email"
                           value={form.email}
                           onChange={set("email")}
                           placeholder="maria@miempresa.cl"
@@ -252,6 +300,8 @@ export default function Contact() {
                         <input
                           id="telefono"
                           type="tel"
+                          required
+                          autoComplete="tel"
                           value={form.telefono}
                           onChange={set("telefono")}
                           placeholder="+56 9 1234 5678"
@@ -265,6 +315,7 @@ export default function Contact() {
                         <label htmlFor="servicio" className={labelCls}>Servicio que necesitas *</label>
                         <select
                           id="servicio"
+                          required
                           value={form.servicio}
                           onChange={set("servicio")}
                           className={`${inputCls(!!errors.servicio)} appearance-none ${
@@ -286,6 +337,7 @@ export default function Contact() {
                         <textarea
                           id="mensaje"
                           rows={4}
+                          required
                           value={form.mensaje}
                           onChange={set("mensaje")}
                           placeholder="Cuéntanos brevemente tu situación: giro de tu empresa, qué necesitas, plazos…"
@@ -297,16 +349,56 @@ export default function Contact() {
                       </div>
                     </div>
 
+                    {status === "error" && (
+                      <div
+                        role="alert"
+                        aria-live="assertive"
+                        className="quote-in mt-8 border-l-4 border-orange-600 bg-orange-50 px-5 py-4"
+                      >
+                        <p className="text-[14px] font-semibold text-orange-800">{errorMsg}</p>
+                        <div className="mt-3 flex flex-wrap gap-3">
+                          <a
+                            href={mailtoFallback}
+                            className="link-draw font-mono text-[11.5px] font-semibold uppercase tracking-[0.14em] text-ink-900"
+                          >
+                            Enviar por correo →
+                          </a>
+                          <a
+                            href={waContinue}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="link-draw font-mono text-[11.5px] font-semibold uppercase tracking-[0.14em] text-ink-900"
+                          >
+                            Continuar por WhatsApp →
+                          </a>
+                        </div>
+                      </div>
+                    )}
+
                     <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                       <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-mist-500">
                         * Campos obligatorios · Respuesta en 1 día hábil
                       </p>
                       <button
                         type="submit"
-                        className="group inline-flex items-center justify-center gap-3 bg-ink-900 px-8 py-4 font-mono text-[13px] font-semibold uppercase tracking-[0.14em] text-brass-300 transition-all duration-300 hover:bg-ink-800 hover:shadow-[0_16px_36px_-14px_rgba(7,20,34,0.6)]"
+                        disabled={status === "sending"}
+                        aria-busy={status === "sending"}
+                        className="group inline-flex items-center justify-center gap-3 bg-ink-900 px-8 py-4 font-mono text-[13px] font-semibold uppercase tracking-[0.14em] text-brass-300 transition-all duration-300 enabled:hover:bg-ink-800 enabled:hover:shadow-[0_16px_36px_-14px_rgba(7,20,34,0.6)] disabled:cursor-wait disabled:opacity-70"
                       >
-                        Enviar mensaje
-                        <ArrowIcon className="h-[18px] w-[18px] transition-transform duration-300 group-hover:translate-x-1.5" />
+                        {status === "sending" ? (
+                          <>
+                            <span
+                              aria-hidden="true"
+                              className="h-4 w-4 animate-spin border-2 border-brass-300/40 border-t-brass-300"
+                            />
+                            Enviando…
+                          </>
+                        ) : (
+                          <>
+                            Enviar mensaje
+                            <ArrowIcon className="h-[18px] w-[18px] transition-transform duration-300 group-hover:translate-x-1.5" />
+                          </>
+                        )}
                       </button>
                     </div>
                   </form>

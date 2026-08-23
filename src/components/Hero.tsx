@@ -2,7 +2,7 @@ import {
   LEDGER_BALANCE,
   LEDGER_ENTRIES,
   QUILLOTA_COORDS,
-  WHATSAPP_NUMBER,
+  waLink,
   daysUntil,
   formatCLP,
   formatDayMonth,
@@ -167,11 +167,9 @@ export default function Hero() {
               <ArrowIcon className="h-[18px] w-[18px] transition-transform duration-300 group-hover:translate-x-1.5" />
             </a>
             <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-                "Hola Audicontab, necesito un contador para mi empresa."
-              )}`}
+              href={waLink()}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="group inline-flex items-center gap-3 border border-paper-50/25 px-7 py-4 font-mono text-[13px] uppercase tracking-[0.14em] text-paper-50 transition-all duration-300 hover:border-brass-400 hover:text-brass-300"
             >
               <WhatsAppIcon className="h-[18px] w-[18px] text-[#4ade80] transition-transform duration-300 group-hover:scale-110" />
