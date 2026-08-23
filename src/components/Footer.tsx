@@ -1,4 +1,4 @@
-import { ADDRESS, NAV, QUILLOTA_COORDS, SERVICES, WHATSAPP_DISPLAY } from "../data/site";
+import { ADDRESS, CONTACT_EMAIL, NAV, QUILLOTA_COORDS, SERVICES, WHATSAPP_DISPLAY } from "../data/site";
 import { ArrowIcon, LogoMark, WhatsAppIcon } from "./icons";
 
 export default function Footer() {
@@ -75,6 +75,14 @@ export default function Footer() {
             </h3>
             <ul className="mt-5 space-y-3 text-[14.5px] text-mist-300">
               <li>{ADDRESS}</li>
+              <li>
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="link-draw break-all text-mist-300 hover:text-paper-50"
+                >
+                  {CONTACT_EMAIL}
+                </a>
+              </li>
               <li>Lun – Vie · 9:00 – 18:00</li>
               <li className="font-mono text-[11px] tracking-[0.14em] text-mist-500">{QUILLOTA_COORDS}</li>
             </ul>

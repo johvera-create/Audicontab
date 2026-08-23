@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import {
   ADDRESS,
+  CONTACT_EMAIL,
   MAPS_URL,
   SERVICES,
   WHATSAPP_DISPLAY,
@@ -10,6 +11,7 @@ import {
   ArrowIcon,
   CheckIcon,
   ClockIcon,
+  MailIcon,
   PhoneIcon,
   PinIcon,
   WhatsAppIcon,
@@ -88,6 +90,14 @@ export default function Contact() {
                   label: "Teléfono / WhatsApp",
                   value: WHATSAPP_DISPLAY,
                   href: `tel:+${WHATSAPP_NUMBER}`,
+                },
+                {
+                  icon: MailIcon,
+                  label: "Correo para cotizaciones",
+                  value: CONTACT_EMAIL,
+                  href: `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+                    "Cotización de servicios contables"
+                  )}`,
                 },
                 {
                   icon: PinIcon,

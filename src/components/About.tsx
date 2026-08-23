@@ -1,4 +1,5 @@
-import { CheckIcon } from "./icons";
+import { CONTACT_EMAIL } from "../data/site";
+import { CheckIcon, MailIcon } from "./icons";
 import { Eyebrow, MaskLines, Reveal, Stat } from "./Reveal";
 
 const VALUES = [
@@ -76,6 +77,27 @@ export default function About() {
               </Reveal>
             ))}
           </ul>
+
+          <Reveal delay={200} y={18}>
+            <a
+              href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+                "Cotización de servicios contables"
+              )}`}
+              className="group mt-9 flex items-center gap-5 border border-ink-900/20 bg-paper-50 px-6 py-5 transition-all duration-300 hover:-translate-y-1 hover:border-brass-500/70 hover:shadow-[0_18px_40px_-20px_rgba(27,58,92,0.35)]"
+            >
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center border border-ink-900/20 text-ink-700 transition-colors duration-300 group-hover:bg-ink-900 group-hover:text-brass-400">
+                <MailIcon className="h-[22px] w-[22px]" />
+              </span>
+              <span>
+                <span className="block font-mono text-[10px] uppercase tracking-[0.24em] text-ink-500">
+                  Cotiza por correo
+                </span>
+                <span className="link-draw mt-1 inline-block break-all text-[15.5px] font-semibold text-ink-900">
+                  {CONTACT_EMAIL}
+                </span>
+              </span>
+            </a>
+          </Reveal>
         </div>
 
         {/* Panel de cifras */}
@@ -92,10 +114,10 @@ export default function About() {
                   Balance de nuestra trayectoria
                 </p>
                 <div className="mt-9 grid grid-cols-2 gap-x-6 gap-y-10">
-                  <Stat value={15} suffix="+" label="Años de trayectoria" />
-                  <Stat value={120} suffix="+" label="Empresas activas" delay={120} />
-                  <Stat value={1400} suffix="+" label="Declaraciones al año" delay={240} />
-                  <Stat value={98} suffix="%" label="Clientes que renuevan" delay={360} />
+                  <Stat value={1400} suffix="+" label="Declaraciones al año" />
+                  <Stat value={98} suffix="%" label="Clientes que renuevan" delay={120} />
+                  <Stat value={100} suffix="%" label="Plazos cumplidos ante el SII" delay={240} />
+                  <Stat value={24} suffix=" h" label="Respuesta a tus consultas" delay={360} />
                 </div>
                 <div className="mt-11 flex items-center gap-4 border-t border-paper-50/12 pt-7">
                   <span className="h-[2px] w-10 bg-brass-400" aria-hidden="true" />

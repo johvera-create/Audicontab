@@ -13,6 +13,7 @@ export const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=O%27Higgins+480+Quillota+Chile";
 
 export const QUILLOTA_COORDS = "32.88° S / 71.26° O";
+export const CONTACT_EMAIL = "johanvera589@gmail.com";
 
 const clp = new Intl.NumberFormat("es-CL", {
   style: "currency",
@@ -145,30 +146,47 @@ export const RENTA_MILESTONES = [
   },
 ];
 
-/* ---------------- Testimonios ---------------- */
+/* ---------------- Reseñas de clientes ---------------- */
 
-export type Testimonial = { quote: string; name: string; role: string };
+export type Review = {
+  id: string;
+  name: string;
+  email?: string;
+  rating: number;
+  comment: string;
+  ts: number;
+};
 
-export const TESTIMONIALS: Testimonial[] = [
-  {
-    quote:
-      "Llevábamos años atrasados con el SII y en tres meses teníamos todo regularizado. Hoy duermo tranquilo cada 12 del mes.",
-    name: "Rodrigo Salinas",
-    role: "Transportes Valle Verde, La Cruz",
-  },
-  {
-    quote:
-      "Nos formalizaron la empresa completa en dos semanas: inicio de actividades, patente y facturación electrónica. Explican todo en castellano, sin tecnicismos.",
-    name: "Carolina Méndez",
-    role: "Comercial Los Aromos, Quillota",
-  },
-  {
-    quote:
-      "La Operación Renta con ellos es otra cosa. Me avisaron antes que el SII, presentamos temprano y la devolución llegó sin reparos.",
-    name: "Jorge Olivares",
-    role: "Ferretería El Triunfo, Quillota",
-  },
-];
+const DAY = 86400000;
+
+export function makeSeedReviews(now = Date.now()): Review[] {
+  return [
+    {
+      id: "seed-1",
+      name: "Rodrigo Salinas",
+      rating: 5,
+      comment:
+        "Llevábamos años atrasados con el SII y en pocos meses teníamos todo regularizado. Hoy duermo tranquilo cada 12 del mes.",
+      ts: now - 12 * DAY,
+    },
+    {
+      id: "seed-2",
+      name: "Carolina Méndez",
+      rating: 5,
+      comment:
+        "Nos formalizaron la empresa completa en dos semanas y explican todo sin tecnicismos. La facturación electrónica quedó funcionando al tiro.",
+      ts: now - 34 * DAY,
+    },
+    {
+      id: "seed-3",
+      name: "Jorge Olivares",
+      rating: 4,
+      comment:
+        "La Operación Renta con ellos es otra cosa: me avisaron antes que el SII y la devolución llegó sin reparos. Se agradece la puntualidad.",
+      ts: now - 61 * DAY,
+    },
+  ];
+}
 
 /* ---------------- Calendario tributario ---------------- */
 
