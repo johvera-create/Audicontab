@@ -261,9 +261,11 @@ export function getUpcomingDeadlines(now = new Date()): TaxDue[] {
   const list: TaxDue[] = [
     {
       code: "F29",
-      label: "Declaración y pago de IVA — Boleta electrónica",
+      label:
+        "Declaración y pago de IVA (Contribuyentes no facturadores electrónicos / Boletas)",
       freq: "Mensual · día 12 (de cada mes)",
       date: nextMonthly(today, 12),
+      note: "Obligatorio incluso sin movimiento",
     },
     {
       code: "PREV",
@@ -273,17 +275,18 @@ export function getUpcomingDeadlines(now = new Date()): TaxDue[] {
     },
     {
       code: "F29",
-      label: "Declaración y pago de IVA — Factura electrónica",
+      label:
+        "Declaración y pago de IVA (Contribuyentes facturadores electrónicos por Internet)",
       freq: "Mensual · día 20 (de cada mes)",
       date: nextMonthly(today, 20),
+      note: "Obligatorio incluso sin movimiento",
     },
     {
       code: "F50",
       label:
-        "PPM Voluntario (Pago Provisional Mensual) — declaración y pago de impuestos específicos y retenciones",
-      freq: "Mensual · día 20 (de cada mes)",
-      date: nextMonthly(today, 20),
-      note: "Obligatorio incluso sin movimiento",
+        "Declaración y pago de impuestos específicos, retenciones y PPM Voluntario (Pago Provisional Mensual)",
+      freq: "Mensual · día 12 (de cada mes)",
+      date: nextMonthly(today, 12),
     },
     {
       code: "DJ",
