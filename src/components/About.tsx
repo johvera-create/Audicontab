@@ -83,7 +83,7 @@ export default function About() {
                   Balance de nuestra trayectoria
                 </p>
                 <div className="mt-9 grid grid-cols-2 gap-x-8">
-                  <Stat value={1530} suffix="+" label="Declaraciones al año" big />
+                  <Stat value={130} suffix="+" label="Declaraciones al año" big />
                   <div className="border-l border-paper-50/12 pl-6 sm:pl-8">
                     <Stat value={98} suffix="%" label="Clientes que renuevan" delay={140} big />
                   </div>

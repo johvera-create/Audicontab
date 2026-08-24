@@ -174,7 +174,7 @@ export default function Hero() {
           </div>
 
           <div className="mt-14 grid max-w-xl grid-cols-3 gap-6 border-t border-paper-50/12 pt-8">
-            <Stat value={1530} suffix="+" label="Declaraciones al año" />
+            <Stat value={130} suffix="+" label="Declaraciones al año" />
             <Stat value={98} suffix="%" label="Clientes que renuevan" delay={120} />
             <Stat value={1} suffix=" día" label="Hábil de respuesta" delay={240} />
           </div>
