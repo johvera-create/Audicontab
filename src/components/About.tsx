@@ -1,0 +1,105 @@
+import { CONTACT_EMAIL } from "../data/site";
+import { CheckIcon, MailIcon, OfficialLogo } from "./icons";
+import { Eyebrow, MaskLines, Reveal, Stat } from "./Reveal";
+
+const VALUES = [
+  "Atención personalizada, no call center",
+  "Plazos del SII siempre cumplidos",
+  "Honorarios claros desde el día uno",
+  "Presencial en Quillota y online a todo Chile",
+];
+
+export default function About() {
+  return (
+    <section id="nosotros" className="relative overflow-hidden bg-paper-100 py-20 md:py-28">
+      <div aria-hidden="true" className="ruled-lines absolute inset-0 opacity-70" />
+      <div className="relative mx-auto grid max-w-7xl gap-14 px-6 lg:grid-cols-2 lg:gap-20">
+        <div>
+          <Eyebrow>Quiénes somos</Eyebrow>
+          <MaskLines
+            className="mt-5 font-display text-4xl font-extrabold leading-[1.03] tracking-tight text-ink-900 sm:text-5xl"
+            lines={["Contadores de oficio,", "cercanos por convicción."]}
+          />
+          <Reveal delay={160}>
+            <p className="mt-7 text-[16px] leading-relaxed text-ink-700">
+              En <strong className="font-semibold text-ink-900">Audicontab Limitada</strong> somos un
+              equipo de profesionales contadores con años de experiencia brindando servicios de
+              calidad en Quillota y la región de Valparaíso. Nos especializamos en asesoría contable,
+              tributaria y gestión empresarial.
+            </p>
+            <p className="mt-4 text-[16px] leading-relaxed text-ink-700">
+              Nuestro enfoque personalizado nos permite ofrecer soluciones adaptadas a las
+              necesidades específicas de cada empresa: desde el emprendedor que parte con boletas de
+              honorarios hasta la pyme que necesita su contabilidad completa al día.
+            </p>
+          </Reveal>
+
+          <ul className="mt-9 space-y-3.5">
+            {VALUES.map((v, i) => (
+              <Reveal key={v} delay={i * 110} y={16}>
+                <li className="group flex items-center gap-4">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-brass-500/60 bg-brass-400/15 text-brass-600 transition-all duration-300 group-hover:bg-brass-400 group-hover:text-ink-950">
+                    <CheckIcon className="h-4 w-4" />
+                  </span>
+                  <span className="text-[15.5px] font-medium text-ink-800">{v}</span>
+                </li>
+              </Reveal>
+            ))}
+          </ul>
+
+          <Reveal delay={200} y={18}>
+            <a
+              href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+                "Cotización de servicios contables"
+              )}`}
+              className="group mt-9 flex items-center gap-5 border border-ink-900/20 bg-paper-50 px-6 py-5 transition-all duration-300 hover:-translate-y-1 hover:border-brass-500/70 hover:shadow-[0_18px_40px_-20px_rgba(27,58,92,0.35)]"
+            >
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center border border-ink-900/20 text-ink-700 transition-colors duration-300 group-hover:bg-ink-900 group-hover:text-brass-400">
+                <MailIcon className="h-[22px] w-[22px]" />
+              </span>
+              <span>
+                <span className="block font-mono text-[10px] uppercase tracking-[0.24em] text-ink-500">
+                  Cotiza por correo
+                </span>
+                <span className="link-draw mt-1 inline-block break-all text-[15.5px] font-semibold text-ink-900">
+                  {CONTACT_EMAIL}
+                </span>
+              </span>
+            </a>
+          </Reveal>
+        </div>
+
+        {/* Panel de cifras */}
+        <div className="relative">
+          <Reveal y={34}>
+            <div className="relative overflow-hidden bg-ink-950 px-9 py-11 text-paper-50 shadow-[0_36px_80px_-30px_rgba(7,20,34,0.75)] md:px-12 md:py-14">
+              <div aria-hidden="true" className="ruled-lines-dark absolute inset-0" />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-[radial-gradient(420px_300px_at_90%_10%,rgba(229,173,67,0.16),transparent_62%)]"
+              />
+              <div className="relative">
+                <p className="font-mono text-[10.5px] uppercase tracking-[0.3em] text-mist-400">
+                  Balance de nuestra trayectoria
+                </p>
+                <div className="mt-9 grid grid-cols-2 gap-x-8">
+                  <Stat value={1530} suffix="+" label="Declaraciones al año" big />
+                  <div className="border-l border-paper-50/12 pl-6 sm:pl-8">
+                    <Stat value={98} suffix="%" label="Clientes que renuevan" delay={140} big />
+                  </div>
+                </div>
+                <div className="mt-11 flex items-center gap-4 border-t border-paper-50/12 pt-7">
+                  <span className="h-[2px] w-10 bg-brass-400" aria-hidden="true" />
+                  <p className="font-mono text-[10.5px] uppercase tracking-[0.24em] text-mist-400">
+                    Comprometidos con el éxito financiero de nuestros clientes
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+          <OfficialLogo className="absolute -bottom-14 -right-2 h-40 w-auto drop-shadow-xl md:-right-6 md:h-48" />
+        </div>
+      </div>
+    </section>
+  );
+}
