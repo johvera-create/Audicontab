@@ -16,13 +16,13 @@ export function AuditSeal({ className }: { className?: string }) {
         <defs>
           <path
             id="seal-circle"
-            d="M60,60 m-43,0 a43,43 0 1,1 86,0 a43,43 0 1,1 -86,0"
+            d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"
             fill="none"
           />
         </defs>
-        <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" strokeWidth="1.4" opacity="0.8" />
-        <circle cx="60" cy="60" r="33" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.8" />
-        <text fontSize="8.6" letterSpacing="2.6" fill="currentColor" fontFamily="IBM Plex Mono, monospace">
+        <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.6" />
+        <circle cx="60" cy="60" r="32" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.6" />
+        <text fontSize="6.8" letterSpacing="1.2" fill="currentColor" fontFamily="IBM Plex Mono, monospace" fontWeight="600">
           <textPath href="#seal-circle">
             AUDICONTAB LIMITADA · QUILLOTA · CHILE ·
           </textPath>
