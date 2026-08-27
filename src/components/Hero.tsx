@@ -155,7 +155,7 @@ export default function Hero() {
 
           <p className="mt-7 max-w-xl text-lg leading-relaxed text-mist-300 md:text-xl">
             Los contadores de <strong className="font-semibold text-paper-50">Audicontab Limitada</strong>{" "}
-            están para apoyarte: IVA, remuneraciones, facturación electrónica y Operación Renta,
+            están para apoyarte: iva, remuneraciones, facturación electrónica y Operación Renta,
             siempre dentro de plazo.
           </p>
 
