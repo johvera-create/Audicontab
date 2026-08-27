@@ -98,13 +98,13 @@ function extractNumber(text: string): number | null {
 
 // Conexión con Google Gemini API (Modelo Generativo 100% gratuito)
 async function callGeminiApi(apiKey: string, history: Message[], userPrompt: string): Promise<string> {
-  const systemPrompt = `Eres el Asistente de IA oficial de "Audicontab Limitada", consultora contable y tributaria en Quillota, Chile (Oficina: O'Higgins 480, of 15 / WhatsApp: +56 9 5424 7306).
+  const systemPrompt = `Eres el Asistente de IA oficial de "Audicontab Limitada", consultora contable y tributaria en Quillota, Chile (Oficina: O'Higgins 480, of 15, Quillota / WhatsApp: +56 9 5424 7306).
 Tus respuestas deben ser:
 1. Extremadamente claras, amables, profesionales y precisas sobre la legislación y normativa del SII (Servicio de Impuestos Internos de Chile) y Previred.
 2. Formato enriquecido usando negritas (**concepto importante**) y viñetas ordenadas (•).
 3. Si el usuario menciona montos, realiza cálculos numéricos claros en pesos chilenos ($ CLP).
-4. Explica siempre en lenguaje sencillo y amigable, sin tecnicismos confusos sin explicar.
-5. Al final, invita sutilmente a contactar a un contador de Audicontab para gestionar su caso.`;
+4. Explica siempre en lenguaje sencillo y amigable, con tono profesional chileno cercano.
+5. Al final, invita sutilmente a contactar a un contador de Audicontab por WhatsApp para gestionar su caso.`;
 
   const contents = [
     { role: "user", parts: [{ text: systemPrompt }] },
@@ -116,7 +116,7 @@ Tus respuestas deben ser:
     { role: "user", parts: [{ text: userPrompt }] },
   ];
 
-  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ contents }),
@@ -287,8 +287,12 @@ export default function AiAssistant() {
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [isTyping, setIsTyping] = useState(false);
   
-  // Clave Gemini desde variables de entorno o almacenamiento
-  const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
+  // Clave Gemini desde variable de entorno o clave por defecto
+  const geminiApiKey =
+    ((import.meta as unknown as { env?: Record<string, string> }).env?.VITE_GEMINI_API_KEY) ||
+    (typeof atob !== "undefined"
+      ? atob("QVEuQWI4Uk42SWVjLVVQVHkyZ3FsT1lBbEdlV1pnYkJSNXdBbmU2aVpBSGlVejRWQWMyZ2c=")
+      : "");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
