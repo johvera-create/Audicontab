@@ -3,8 +3,6 @@ import { formatCLP, waLink } from "../data/site";
 import {
   ArrowIcon,
   CheckIcon,
-  InvoiceIcon,
-  PercentIcon,
   WhatsAppIcon,
 } from "./icons";
 
@@ -14,13 +12,14 @@ type Message = {
   text: string;
   options?: string[];
   ctaWhatsApp?: string;
+  isAiGenerated?: boolean;
   ts: number;
 };
 
 const INITIAL_MESSAGE: Message = {
   id: "welcome",
   sender: "bot",
-  text: "¡Hola! 👋 Soy el **Asistente Virtual de Audicontab**.\n\nPuedo responder cualquier duda sobre impuestos chilenos, IVA F29, formalización de empresas, Previred o calcular montos al instante.\n\n¿En qué te puedo ayudar?",
+  text: "¡Hola! 👋 Soy el **Asistente Tributario de Audicontab**.\n\nPuedo responder cualquier duda sobre impuestos chilenos, IVA F29, boletas de honorarios, creación de empresas SpA/EIRL o calcular montos al instante.\n\n¿En qué te puedo orientar hoy?",
   options: [
     "💼 ¿Cómo crear una empresa SpA?",
     "📅 ¿Cuándo vence el IVA F29?",
@@ -31,25 +30,63 @@ const INITIAL_MESSAGE: Message = {
   ts: Date.now(),
 };
 
+// Componente para renderizar Markdown limpio (negritas **, viñetas, saltos de línea) sin asteriscos crudos
+function FormattedMessage({ text }: { text: string }) {
+  const lines = text.split("\n");
+
+  return (
+    <div className="space-y-1.5 leading-relaxed text-[13px]">
+      {lines.map((line, lIdx) => {
+        const trimmed = line.trim();
+        if (!trimmed) {
+          return <div key={lIdx} className="h-1" />;
+        }
+
+        // Parsear viñetas
+        const isBullet = trimmed.startsWith("• ") || trimmed.startsWith("- ") || trimmed.startsWith("* ");
+        const content = isBullet ? trimmed.slice(2) : line;
+
+        // Parsear negritas con formato **texto**
+        const parts = content.split(/(\*\*.*?\*\*)/g);
+
+        return (
+          <p key={lIdx} className={`break-words ${isBullet ? "pl-3 flex items-start gap-1.5" : ""}`}>
+            {isBullet && <span className="text-brass-400 font-bold shrink-0">•</span>}
+            <span>
+              {parts.map((part, pIdx) => {
+                if (part.startsWith("**") && part.endsWith("**")) {
+                  return (
+                    <strong key={pIdx} className="font-bold text-paper-50 underline decoration-brass-400/40 decoration-1 underline-offset-2">
+                      {part.slice(2, -2)}
+                    </strong>
+                  );
+                }
+                return part;
+              })}
+            </span>
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
 // Extractor de números en el texto (ej: "800.000", "800000", "2 millones", "1.5m", "800 lucas")
 function extractNumber(text: string): number | null {
   const clean = text.toLowerCase();
-  
-  // "X millones" o "X millon"
+
   const millonMatch = clean.match(/([\d.,]+)\s*(?:millones|millon|m\b)/i);
   if (millonMatch) {
     const num = parseFloat(millonMatch[1].replace(/\./g, "").replace(",", "."));
     if (!isNaN(num)) return Math.round(num * 1000000);
   }
 
-  // "X lucas"
   const lucasMatch = clean.match(/([\d.,]+)\s*lucas?/i);
   if (lucasMatch) {
     const num = parseFloat(lucasMatch[1].replace(/\./g, "").replace(",", "."));
     if (!isNaN(num)) return Math.round(num * 1000);
   }
 
-  // Números directos con o sin puntos (ej: 850000, 850.000, $1.200.000)
   const numMatch = clean.match(/(?:\$|\b)(\d{1,3}(?:\.\d{3})+|\d{4,9})\b/);
   if (numMatch) {
     const num = parseInt(numMatch[1].replace(/\./g, ""), 10);
@@ -59,49 +96,82 @@ function extractNumber(text: string): number | null {
   return null;
 }
 
-// Motor de Inteligencia Tributaria Avanzada
-function generateSmartResponse(query: string, history: Message[]): { text: string; options?: string[]; ctaWhatsApp?: string } {
+// Conexión con Google Gemini API (Modelo Generativo 100% gratuito)
+async function callGeminiApi(apiKey: string, history: Message[], userPrompt: string): Promise<string> {
+  const systemPrompt = `Eres el Asistente de IA oficial de "Audicontab Limitada", consultora contable y tributaria en Quillota, Chile (Oficina: O'Higgins 480, of 15 / WhatsApp: +56 9 5424 7306).
+Tus respuestas deben ser:
+1. Extremadamente claras, amables, profesionales y precisas sobre la legislación y normativa del SII (Servicio de Impuestos Internos de Chile) y Previred.
+2. Formato enriquecido usando negritas (**concepto importante**) y viñetas ordenadas (•).
+3. Si el usuario menciona montos, realiza cálculos numéricos claros en pesos chilenos ($ CLP).
+4. Explica siempre en lenguaje sencillo y amigable, sin tecnicismos confusos sin explicar.
+5. Al final, invita sutilmente a contactar a un contador de Audicontab para gestionar su caso.`;
+
+  const contents = [
+    { role: "user", parts: [{ text: systemPrompt }] },
+    { role: "model", parts: [{ text: "Entendido. Soy el Asistente Tributario de Audicontab Limitada en Quillota, listo para orientar en impuestos y contabilidad chilena de forma clara y precisa." }] },
+    ...history.slice(-4).map((m) => ({
+      role: m.sender === "user" ? "user" : "model",
+      parts: [{ text: m.text }],
+    })),
+    { role: "user", parts: [{ text: userPrompt }] },
+  ];
+
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ contents }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.error?.message || `Error (${res.status})`);
+  }
+
+  const data = await res.json();
+  const answer = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!answer) throw new Error("Respuesta vacía");
+  return answer;
+}
+
+// Motor de Inteligencia Tributaria Avanzada Local
+function generateSmartResponse(query: string): { text: string; options?: string[]; ctaWhatsApp?: string } {
   const q = query.toLowerCase().trim();
   const extractedAmount = extractNumber(q);
 
-  // --- 1. CÁLCULOS EN VIVO DENTRO DEL CHAT ---
+  // --- CÁLCULOS DINÁMICOS EN EL CHAT ---
 
-  // Cálculo de Boleta de Honorarios en vivo
+  // Boleta de Honorarios
   if (
     (q.includes("boleta") || q.includes("honorario") || q.includes("retencion") || q.includes("retención")) &&
     extractedAmount
   ) {
-    const tasa = 0.145; // Tasa oficial 2025
-    const tasaDisplay = "14.50%";
-    
-    // Si menciona "liquido" o "al bolsillo"
+    const tasa = 0.145; // 2025
     if (q.includes("liquido") || q.includes("líquido") || q.includes("recibir") || q.includes("bolsillo")) {
       const bruto = Math.round(extractedAmount / (1 - tasa));
       const retencion = bruto - extractedAmount;
       return {
-        text: `📊 **Cálculo de Boleta de Honorarios (${tasaDisplay} retención SII):**\n\n• **Monto Líquido deseado:** ${formatCLP(extractedAmount)}\n• **Retención que pagará al SII:** - ${formatCLP(retencion)}\n• 👉 **Monto Bruto a emitir:** **${formatCLP(bruto)}**\n\n💡 *Para recibir ${formatCLP(extractedAmount)} en tu cuenta, debes emitir tu boleta por ${formatCLP(bruto)}.*`,
+        text: `📊 **Cálculo de Boleta de Honorarios (Retención SII 14.50%):**\n\n• **Monto Líquido al bolsillo:** ${formatCLP(extractedAmount)}\n• **Retención que pagará al SII:** - ${formatCLP(retencion)}\n• 👉 **Monto Bruto a emitir:** **${formatCLP(bruto)}**\n\n💡 *Para recibir ${formatCLP(extractedAmount)} en tu cuenta bancaria, debes emitir tu boleta por ${formatCLP(bruto)}.*`,
         options: ["¿Cuándo vence el IVA F29?", "¿Cómo crear una empresa SpA?", "Cotizar con un contador"],
-        ctaWhatsApp: `Hola Audicontab, calculé una boleta líquida de ${formatCLP(extractedAmount)} (Bruto ${formatCLP(bruto)}) y me gustaría consultar sus servicios.`,
+        ctaWhatsApp: `Hola Audicontab, calculé una boleta líquida de ${formatCLP(extractedAmount)} (Bruto ${formatCLP(bruto)}) y me gustaría consultar.`,
       };
     } else {
-      // Por defecto asume monto bruto
       const retencion = Math.round(extractedAmount * tasa);
       const liquido = extractedAmount - retencion;
       return {
-        text: `📊 **Cálculo de Boleta de Honorarios (${tasaDisplay} retención SII):**\n\n• **Monto Bruto emitido:** ${formatCLP(extractedAmount)}\n• **Retención SII descontada:** - ${formatCLP(retencion)}\n• 👉 **Monto Líquido a recibir:** **${formatCLP(liquido)}**\n\n💡 *El SII retendrá ${formatCLP(retencion)} como pago provisional para tu Renta anual.*`,
-        options: ["¿Cómo calculo desde líquido?", "¿Cuándo vence el IVA F29?", "Hablar con un contador"],
+        text: `📊 **Cálculo de Boleta de Honorarios (Retención SII 14.50%):**\n\n• **Monto Bruto emitido:** ${formatCLP(extractedAmount)}\n• **Retención SII descontada:** - ${formatCLP(retencion)}\n• 👉 **Monto Líquido que recibirás:** **${formatCLP(liquido)}**\n\n💡 *El SII retiene ${formatCLP(retencion)} como abono para tu Operación Renta anual.*`,
+        options: ["¿Cómo calculo desde el Líquido?", "¿Cuándo vence el IVA F29?", "Hablar con un contador"],
         ctaWhatsApp: `Hola Audicontab, calculé una boleta bruta de ${formatCLP(extractedAmount)} (Líquido ${formatCLP(liquido)}) y me gustaría asesoría.`,
       };
     }
   }
 
-  // Cálculo de IVA (19%) en vivo
+  // IVA 19%
   if ((q.includes("iva") || q.includes("neto") || q.includes("factura") || q.includes("desglose")) && extractedAmount) {
     if (q.includes("total") || q.includes("bruto") || q.includes("con iva")) {
       const neto = Math.round(extractedAmount / 1.19);
       const iva = extractedAmount - neto;
       return {
-        text: `🧾 **Desglose de Factura desde Total con IVA:**\n\n• **Monto Total:** ${formatCLP(extractedAmount)}\n• **Valor Neto:** ${formatCLP(neto)}\n• **IVA (19%):** ${formatCLP(iva)}`,
+        text: `🧾 **Desglose de Factura desde Total con IVA:**\n\n• **Monto Total Facturado:** ${formatCLP(extractedAmount)}\n• **Valor Neto (sin IVA):** ${formatCLP(neto)}\n• **IVA Débito (19%):** ${formatCLP(iva)}`,
         options: ["¿Cuándo vence el IVA F29?", "Probar Simulador F29", "Cotizar contabilidad mensual"],
         ctaWhatsApp: `Hola Audicontab, tengo una consulta sobre facturación de ${formatCLP(extractedAmount)}.`,
       };
@@ -109,16 +179,14 @@ function generateSmartResponse(query: string, history: Message[]): { text: strin
       const iva = Math.round(extractedAmount * 0.19);
       const total = extractedAmount + iva;
       return {
-        text: `🧾 **Cálculo de IVA (19%) desde Valor Neto:**\n\n• **Valor Neto:** ${formatCLP(extractedAmount)}\n• **IVA (19%):** + ${formatCLP(iva)}\n• 👉 **Total Facturado:** **${formatCLP(total)}**`,
+        text: `🧾 **Cálculo de IVA (19%) desde Valor Neto:**\n\n• **Valor Neto:** ${formatCLP(extractedAmount)}\n• **IVA (19%):** + ${formatCLP(iva)}\n• 👉 **Total Facturado con IVA:** **${formatCLP(total)}**`,
         options: ["¿Cuándo vence el IVA F29?", "Calcular boleta de honorarios", "Hablar con un contador"],
         ctaWhatsApp: `Hola Audicontab, coticé un monto neto de ${formatCLP(extractedAmount)} (+ IVA ${formatCLP(total)}) y me gustaría asesoría.`,
       };
     }
   }
 
-  // --- 2. CONSULTAS TRIBUTARIAS & CONTABLES ---
-
-  // Creación de Empresas / Formalización / SpA / EIRL
+  // Creación de Empresas / SpA / EIRL
   if (
     q.includes("crear") ||
     q.includes("formaliz") ||
@@ -126,18 +194,16 @@ function generateSmartResponse(query: string, history: Message[]): { text: strin
     q.includes("eirl") ||
     q.includes("constitu") ||
     q.includes("inicio de actividades") ||
-    q.includes("tu empresa en un dia") ||
-    q.includes("emprender") ||
-    q.includes("sociedad")
+    q.includes("empresa")
   ) {
     return {
-      text: "🚀 **Formalización y Creación de Empresas en Chile:**\n\nTe asesoramos en todo el proceso paso a paso:\n\n1. **Estructura legal recomendada:** **SpA** (Sociedad por Acciones) para 1 o más socios con máxima flexibilidad, o **EIRL**.\n2. **Constitución en Tu Empresa en un Día:** Redacción de estatutos y obtención del RUT de la empresa.\n3. **Inicio de Actividades ante el SII:** Verificación de actividades y acreditación de domicilio tributario.\n4. **Facturación electrónica y Patente municipal.**\n\n⏱️ *Tiempo estimado:* 2 a 5 días hábiles. ¡Nosotros nos encargamos de todo el papeleo!",
+      text: "🚀 **Formalización y Creación de Empresas en Chile:**\n\nTe asesoramos en todo el ciclo de principio a fin:\n\n• **1. Elección de estructura:** **SpA** (Sociedad por Acciones) para máxima flexibilidad o **EIRL**.\n• **2. Constitución legal:** Redacción de estatutos y obtención del RUT de la empresa.\n• **3. Inicio de Actividades ante el SII:** Verificación de actividades y acreditación de domicilio tributario.\n• **4. Facturación electrónica y Patente municipal.**\n\n⏱️ *Plazo habitual:* 2 a 4 días hábiles. ¡Nosotros gestionamos todo el trámite!",
       options: ["¿Qué régimen tributario me conviene?", "¿Cuándo vence el IVA F29?", "Cotizar formalización de empresa"],
       ctaWhatsApp: "Hola Audicontab, me gustaría cotizar la formalización y creación de mi empresa.",
     };
   }
 
-  // IVA, F29, Declaraciones mensuales y multas
+  // IVA y F29
   if (
     q.includes("iva") ||
     q.includes("f29") ||
@@ -145,117 +211,53 @@ function generateSmartResponse(query: string, history: Message[]): { text: strin
     q.includes("debito") ||
     q.includes("credito") ||
     q.includes("atrasad") ||
-    q.includes("multa") ||
-    q.includes("remanente") ||
-    q.includes("sin movimiento")
+    q.includes("multa")
   ) {
     return {
-      text: "📅 **Declaración y Pago de IVA — Formulario 29 (F29):**\n\n• **Día 12 de cada mes:** Boleta electrónica / No facturadores (*Obligatorio incluso sin movimiento*).\n• **Día 20 de cada mes:** Factura electrónica (*Obligatorio incluso sin movimiento*).\n\n⚠️ **¿Tienes declaraciones atrasadas o multas en el SII?**\nRevisamos tus libros de compra/venta, rectificamos tus formularios y solicitamos la condonación de intereses y multas ante el SII.",
+      text: "📅 **Declaración y Pago de IVA — Formulario 29 (F29):**\n\n• **Día 12 de cada mes:** Boleta electrónica / No facturadores (**Obligatorio incluso sin movimiento**).\n• **Día 20 de cada mes:** Factura electrónica (**Obligatorio incluso sin movimiento**).\n\n⚠️ **¿Tienes meses sin declarar o multas?**\nRevisamos tus libros contables, rectificamos ante el SII y gestionamos la condonación de intereses.",
       options: ["Probar el Simulador F29", "¿Cuánto retiene el SII en boletas?", "Regularizar F29 con Audicontab"],
       ctaWhatsApp: "Hola Audicontab, necesito regularizar y declarar mi IVA F29 mensual.",
     };
   }
 
-  // Boletas de Honorarios, tasas y retenciones
+  // Boletas de Honorarios
   if (
     q.includes("boleta") ||
     q.includes("honorario") ||
     q.includes("retencion") ||
     q.includes("retención") ||
     q.includes("14.5") ||
-    q.includes("15.25") ||
-    q.includes("boletear")
+    q.includes("15.25")
   ) {
     return {
-      text: "📈 **Retención del SII en Boletas de Honorarios en Chile:**\n\n• **Año 2025:** 14.50%\n• **Año 2026:** 15.25%\n• **Año 2027:** 16.00%\n• **Año 2028 en adelante:** 17.00%\n\n💡 *Puedes escribir un monto aquí en el chat (ej: 'calcula boleta de 600.000') o usar nuestra calculadora interactiva en la página.*",
+      text: "📈 **Tasa de Retención del SII en Boletas de Honorarios:**\n\n• **Año 2025:** **14.50%**\n• **Año 2026:** **15.25%**\n• **Año 2027:** **16.00%**\n• **Año 2028 en adelante:** **17.00%**\n\n💡 *Puedes escribir un monto aquí (ej: 'calcula boleta de 800.000 líquidos') para ver el desglose al instante.*",
       options: ["Calcular boleta de $500.000", "¿Cuándo vence el IVA F29?", "Hablar con un contador"],
       ctaWhatsApp: "Hola Audicontab, tengo dudas sobre emisión de boletas de honorarios y retención del SII.",
     };
   }
 
-  // Operación Renta, F22, Devoluciones
-  if (
-    q.includes("renta") ||
-    q.includes("f22") ||
-    q.includes("declaracion jurada") ||
-    q.includes("dj 1887") ||
-    q.includes("devolucion") ||
-    q.includes("devolución") ||
-    q.includes("impuesto a la renta")
-  ) {
+  // Regímenes Tributarios
+  if (q.includes("regimen") || q.includes("régimen") || q.includes("pro pyme") || q.includes("14 d")) {
     return {
-      text: "📑 **Operación Renta Anual (F22 y Declaraciones Juradas):**\n\n1. **Marzo:** Presentación de Declaraciones Juradas obligatorias (DJ 1887 sueldos, 1888 retenciones, 1948 retiros, etc.).\n2. **Abril:** Presentación del Formulario 22 (F22) para personas naturales y empresas.\n\n🛡️ *Con Audicontab revisamos tus gastos deducibles y balances para maximizar tu devolución y evitar observaciones del SII.*",
-      options: ["Reservar hora para Operación Renta", "¿Qué régimen tributario me conviene?", "Hablar con un contador"],
-      ctaWhatsApp: "Hola Audicontab, me gustaría agendar la revisión de mi Operación Renta F22.",
-    };
-  }
-
-  // Regímenes Tributarios Pro Pyme
-  if (
-    q.includes("regimen") ||
-    q.includes("régimen") ||
-    q.includes("pro pyme") ||
-    q.includes("14 d3") ||
-    q.includes("14 d8") ||
-    q.includes("transparente") ||
-    q.includes("general") ||
-    q.includes("impuesto primera categoria")
-  ) {
-    return {
-      text: "⚖️ **Regímenes Tributarios para Pymes en Chile (Art. 14 D):**\n\n• **Pro Pyme General (14 D3):**\n  - Paga 25% de impuesto corporativo (tasa pyme).\n  - Permite trasladar el 100% del crédito tributario a los socios.\n  - Ideal si reinviertes utilidades en la empresa.\n\n• **Pro Pyme Transparente (14 D8):**\n  - La empresa **NO paga impuesto de 1ra categoría**.\n  - Las utilidades tributan directamente en el Global Complementario de los dueños.\n  - Ideal para empresas de servicios o socios con tramos bajos de impuesto.\n\nTe ayudamos a simular y elegir el régimen más económico para tu caso.",
+      text: "⚖️ **Regímenes Tributarios para Pymes en Chile (Art. 14 D):**\n\n• **Pro Pyme General (14 D3):**\n  - Paga 25% de impuesto corporativo.\n  - Traslada el 100% del crédito tributario a los socios.\n  - Recomendado si reinviertes utilidades.\n\n• **Pro Pyme Transparente (14 D8):**\n  - **La empresa no paga impuesto de 1ra categoría**.\n  - Las utilidades tributan directamente en el Global Complementario de los dueños.\n  - Recomendado para servicios y profesionales.",
       options: ["¿Cómo crear una empresa SpA?", "Cotizar asesoría contable", "Hablar con un contador"],
       ctaWhatsApp: "Hola Audicontab, me gustaría asesoría para elegir el mejor régimen tributario para mi empresa.",
     };
   }
 
-  // Sueldos, Remuneraciones, Contratos y Previred
-  if (
-    q.includes("sueldo") ||
-    q.includes("remuneracion") ||
-    q.includes("remuneración") ||
-    q.includes("previred") ||
-    q.includes("contrato") ||
-    q.includes("finiquito") ||
-    q.includes("trabajador") ||
-    q.includes("empleado") ||
-    q.includes("afp") ||
-    q.includes("fonasa") ||
-    q.includes("40 horas")
-  ) {
+  // Operación Renta
+  if (q.includes("renta") || q.includes("f22") || q.includes("declaracion jurada") || q.includes("devolucion")) {
     return {
-      text: "👥 **Administración de Personal, Sueldos y Previred:**\n\n• Confección mensual de liquidaciones de sueldo con leyes sociales al día.\n• Declaración y pago oportuno en **Previred** (plazo día 13 de cada mes).\n• Redacción de contratos de trabajo, anexos por ley 40 horas y cartas de término.\n• Cálculo de finiquitos e indemnizaciones según normativa de la Dirección del Trabajo.",
-      options: ["Cotizar gestión de sueldos y Previred", "¿Cuándo vence el IVA F29?", "Hablar con un contador"],
-      ctaWhatsApp: "Hola Audicontab, me gustaría cotizar la gestión mensual de sueldos y Previred.",
+      text: "📑 **Operación Renta Anual (F22 y Declaraciones Juradas):**\n\n• **Marzo:** Presentación de Declaraciones Juradas obligatorias (DJ 1887 sueldos, 1888, 1948).\n• **Abril:** Presentación del Formulario 22 (F22) para empresas y personas.\n\n🛡️ *Revisamos tus balances para maximizar tu devolución y asegurar que no tengas observaciones en el SII.*",
+      options: ["Reservar hora para Operación Renta", "¿Qué régimen tributario me conviene?", "Hablar con un contador"],
+      ctaWhatsApp: "Hola Audicontab, me gustaría agendar la revisión de mi Operación Renta F22.",
     };
   }
 
-  // Datos de Audicontab, Precios, Ubicación, Horarios
-  if (
-    q.includes("precio") ||
-    q.includes("costo") ||
-    q.includes("cuanto") ||
-    q.includes("cuánto") ||
-    q.includes("valor") ||
-    q.includes("cotiz") ||
-    q.includes("donde") ||
-    q.includes("dónde") ||
-    q.includes("ubicacion") ||
-    q.includes("quillota") ||
-    q.includes("horario") ||
-    q.includes("telefono") ||
-    q.includes("contacto")
-  ) {
+  // Saludos
+  if (q === "hola" || q === "buenas" || q === "buenos dias" || q === "buenas tardes") {
     return {
-      text: "📍 **Audicontab Limitada — Servicios Contables en Quillota:**\n\n• **Dirección:** O'Higgins 480, oficina 15, Quillota, Chile.\n• **Horario:** Lunes a Viernes de 9:00 a 18:00 hrs.\n• **Cobertura:** Presencial en Quillota y la región, y 100% online para todo Chile.\n• **WhatsApp directo:** +56 9 5424 7306\n\n💰 *Nuestros planes mensuales son accesibles y transparentes según el volumen de facturación de tu negocio.*",
-      options: ["Hablar con un contador por WhatsApp", "¿Cómo crear una empresa SpA?", "Ver herramientas interactivas"],
-      ctaWhatsApp: "Hola Audicontab, me gustaría solicitar una cotización para mi negocio.",
-    };
-  }
-
-  // Saludos cordiales
-  if (q === "hola" || q === "buenas" || q === "buenos dias" || q === "buenas tardes" || q === "hola!" || q === "hola buenas") {
-    return {
-      text: "¡Hola! Un gusto saludarte. 😊\n\nSoy el asistente inteligente de Audicontab. Cuéntame qué necesitas saber sobre tu empresa, impuestos ante el SII, boletas o contabilidad mensual.",
+      text: "¡Hola! Un gusto saludarte. 😊\n\nSoy el asistente tributario de Audicontab. Cuéntame qué necesitas saber sobre tu empresa, impuestos ante el SII, boletas o contabilidad mensual.",
       options: [
         "💼 ¿Cómo crear una empresa SpA?",
         "📅 ¿Cuándo vence el IVA F29?",
@@ -266,9 +268,9 @@ function generateSmartResponse(query: string, history: Message[]): { text: strin
     };
   }
 
-  // Respuesta adaptativa inteligente
+  // Respuesta general
   return {
-    text: `Entiendo tu consulta sobre "${query}".\n\nEn **Audicontab Limitada** brindamos asesoría tributaria completa, declaraciones de IVA F29, renta y gestión contable para personas y empresas.\n\n¿Deseas que un contador auditor revise tu caso en detalle por WhatsApp o prefieres consultar otro tema?`,
+    text: `Entiendo tu consulta sobre "${query}".\n\nEn **Audicontab Limitada** resolvemos todas tus obligaciones ante el SII, IVA F29, remuneraciones y balances con atención cercana y profesional.\n\n¿Te gustaría que un contador auditor revise tu caso en detalle por WhatsApp o prefieres consultar otro tema?`,
     options: [
       "💬 Hablar con un contador por WhatsApp",
       "📅 ¿Cuándo vence el IVA F29?",
@@ -284,6 +286,15 @@ export default function AiAssistant() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [isTyping, setIsTyping] = useState(false);
+  const [geminiApiKey, setGeminiApiKey] = useState<string>(() => {
+    try {
+      return window.localStorage.getItem("audicontab_gemini_key") || "";
+    } catch {
+      return "";
+    }
+  });
+  const [showConfig, setShowConfig] = useState(false);
+  const [tempKey, setTempKey] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -296,7 +307,18 @@ export default function AiAssistant() {
     }
   }, [messages, isOpen]);
 
-  const handleSend = (textToSend?: string) => {
+  const handleSaveKey = () => {
+    const k = tempKey.trim();
+    setGeminiApiKey(k);
+    try {
+      window.localStorage.setItem("audicontab_gemini_key", k);
+    } catch {
+      /* sin persistencia */
+    }
+    setShowConfig(false);
+  };
+
+  const handleSend = async (textToSend?: string) => {
     const text = (textToSend || input).trim();
     if (!text) return;
 
@@ -311,8 +333,29 @@ export default function AiAssistant() {
     setInput("");
     setIsTyping(true);
 
+    // Si tiene clave de Google Gemini API, consulta la IA generativa real
+    if (geminiApiKey) {
+      try {
+        const aiText = await callGeminiApi(geminiApiKey, messages, text);
+        const botMsg: Message = {
+          id: `bot-${Date.now()}`,
+          sender: "bot",
+          text: aiText,
+          isAiGenerated: true,
+          ctaWhatsApp: `Hola Audicontab, estuve conversando con su IA sobre: ${text}`,
+          ts: Date.now(),
+        };
+        setMessages((prev) => [...prev, botMsg]);
+        setIsTyping(false);
+        return;
+      } catch (err) {
+        console.warn("Error en Gemini API, usando motor tributario local:", err);
+      }
+    }
+
+    // Motor de respuesta experto tributario local
     setTimeout(() => {
-      const resp = generateSmartResponse(text, messages);
+      const resp = generateSmartResponse(text);
       const botMsg: Message = {
         id: `bot-${Date.now()}`,
         sender: "bot",
@@ -323,11 +366,11 @@ export default function AiAssistant() {
       };
       setMessages((prev) => [...prev, botMsg]);
       setIsTyping(false);
-    }, 500);
+    }, 450);
   };
 
   const handleOptionClick = (option: string) => {
-    if (option.includes("Calculadora") || option.includes("herramientas")) {
+    if (option.includes("herramientas") || option.includes("Simulador")) {
       setIsOpen(false);
       window.location.hash = "#herramientas";
       return;
@@ -344,7 +387,7 @@ export default function AiAssistant() {
 
   return (
     <>
-      {/* Botón flotante discreto y elegante en esquina inferior derecha */}
+      {/* Botón flotante discreto en esquina inferior derecha */}
       <div className="fixed bottom-6 right-24 z-[60] flex items-center">
         <button
           type="button"
@@ -365,16 +408,16 @@ export default function AiAssistant() {
             <span className="relative inline-flex h-3.5 w-3.5 rounded-full border-2 border-ink-950 bg-[#22c55e]" />
           </span>
 
-          {/* Tooltip hover limpio */}
+          {/* Tooltip hover */}
           <span className="pointer-events-none absolute bottom-full mb-2.5 whitespace-nowrap border border-brass-400/40 bg-ink-950 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-brass-300 opacity-0 shadow-lg transition-all duration-200 group-hover:opacity-100 group-hover:-translate-y-1">
-            Asistente IA Tributario
+            Asistente IA Tributario {geminiApiKey ? "(Gemini Pro)" : ""}
           </span>
         </button>
       </div>
 
       {/* Ventana de Chat */}
       {isOpen && (
-        <div className="fixed bottom-24 right-4 z-[70] flex h-[530px] max-h-[80vh] w-[92vw] max-w-[380px] flex-col overflow-hidden border-2 border-brass-400/60 bg-ink-950 text-paper-50 shadow-[0_24px_70px_-15px_rgba(6,14,26,0.95)] sm:right-6">
+        <div className="fixed bottom-24 right-4 z-[70] flex h-[540px] max-h-[82vh] w-[92vw] max-w-[390px] flex-col overflow-hidden border-2 border-brass-400/60 bg-ink-950 text-paper-50 shadow-[0_24px_70px_-15px_rgba(6,14,26,0.95)] sm:right-6">
           {/* Header del Chat */}
           <div className="flex items-center justify-between border-b border-paper-50/15 bg-gradient-to-r from-ink-900 to-ink-950 px-4 py-3">
             <div className="flex items-center gap-3">
@@ -387,7 +430,14 @@ export default function AiAssistant() {
                 <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full border border-ink-950 bg-[#22c55e]" />
               </div>
               <div>
-                <p className="font-display text-sm font-bold text-paper-50">Audicontab IA</p>
+                <div className="flex items-center gap-1.5">
+                  <p className="font-display text-sm font-bold text-paper-50">Audicontab IA</p>
+                  {geminiApiKey && (
+                    <span className="bg-brass-400/20 text-brass-300 border border-brass-400/40 text-[9px] font-mono px-1 rounded">
+                      Gemini
+                    </span>
+                  )}
+                </div>
                 <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-brass-300">
                   Asesoría Tributaria Activa
                 </p>
@@ -395,6 +445,17 @@ export default function AiAssistant() {
             </div>
 
             <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setTempKey(geminiApiKey);
+                  setShowConfig(!showConfig);
+                }}
+                title="Configurar clave Gemini IA (Gratis)"
+                className="p-1.5 text-mist-400 transition-colors hover:text-paper-100"
+              >
+                ⚙️
+              </button>
               <button
                 type="button"
                 onClick={() => setMessages([INITIAL_MESSAGE])}
@@ -413,21 +474,55 @@ export default function AiAssistant() {
             </div>
           </div>
 
-          {/* Área de Mensajes */}
-          <div className="flex-1 overflow-y-auto p-3.5 space-y-3 text-[13px] leading-relaxed">
+          {/* Modal de Configuración Clave Gemini Gratuita */}
+          {showConfig && (
+            <div className="border-b border-paper-50/15 bg-ink-900 p-3.5 text-xs">
+              <p className="font-bold text-paper-50 mb-1">Activar Google Gemini AI (100% Gratis):</p>
+              <p className="text-mist-400 mb-2 leading-tight">
+                Obtén tu clave gratis en{" "}
+                <a
+                  href="https://aistudio.google.com/app/apikey"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-brass-300 underline"
+                >
+                  aistudio.google.com
+                </a>
+              </p>
+              <div className="flex gap-2">
+                <input
+                  type="password"
+                  value={tempKey}
+                  onChange={(e) => setTempKey(e.target.value)}
+                  placeholder="Pega tu API Key de Gemini..."
+                  className="flex-1 bg-ink-950 border border-paper-50/20 px-2.5 py-1.5 text-paper-50 font-mono text-[11px] outline-none focus:border-brass-400"
+                />
+                <button
+                  type="button"
+                  onClick={handleSaveKey}
+                  className="bg-brass-500 hover:bg-brass-400 px-3 py-1.5 font-mono text-[11px] font-bold text-paper-50"
+                >
+                  Guardar
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Área de Mensajes con Formateador de Markdown */}
+          <div className="flex-1 overflow-y-auto p-3.5 space-y-3">
             {messages.map((m) => (
               <div
                 key={m.id}
                 className={`flex flex-col ${m.sender === "user" ? "items-end" : "items-start"}`}
               >
                 <div
-                  className={`max-w-[88%] px-3.5 py-2.5 whitespace-pre-line ${
+                  className={`max-w-[90%] px-3.5 py-2.5 ${
                     m.sender === "user"
                       ? "bg-brass-500 text-paper-50 rounded-tl-xl rounded-tr-sm rounded-bl-xl font-medium"
-                      : "border border-paper-50/15 bg-ink-900/90 text-paper-100 rounded-tr-xl rounded-tl-sm rounded-br-xl shadow-sm"
+                      : "border border-paper-50/15 bg-ink-900/95 text-paper-100 rounded-tr-xl rounded-tl-sm rounded-br-xl shadow-sm"
                   }`}
                 >
-                  {m.text}
+                  <FormattedMessage text={m.text} />
                 </div>
 
                 {/* Botón CTA directo a WhatsApp */}
@@ -436,7 +531,7 @@ export default function AiAssistant() {
                     href={waLink(m.ctaWhatsApp)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-2 inline-flex items-center gap-2 border border-[#4ade80]/40 bg-[#4ade80]/15 px-3 py-1.5 font-mono text-[10px] font-semibold text-[#86efac] transition-all hover:bg-[#4ade80]/25"
+                    className="mt-2 inline-flex items-center gap-2 border border-[#4ade80]/40 bg-[#4ade80]/15 px-3 py-1.5 font-mono text-[10.5px] font-semibold text-[#86efac] transition-all hover:bg-[#4ade80]/25"
                   >
                     <WhatsAppIcon className="h-3.5 w-3.5 text-[#4ade80]" />
                     Hablar con un contador por WhatsApp
@@ -484,7 +579,7 @@ export default function AiAssistant() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Escribe tu duda (ej: boleta de $800.000)…"
+                placeholder="Escribe tu duda o monto (ej: boleta $850.000)…"
                 className="flex-1 border border-paper-50/20 bg-ink-950 px-3 py-2 font-mono text-xs text-paper-50 outline-none focus:border-brass-400 placeholder:text-mist-500"
               />
               <button
