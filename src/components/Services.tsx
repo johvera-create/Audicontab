@@ -4,9 +4,17 @@ import { SERVICE_ICONS, ArrowIcon, CheckIcon, PlusIcon } from "./icons";
 import { Eyebrow, MaskLines } from "./Reveal";
 
 export default function Services() {
-  const [openIdx, setOpenIdx] = useState(0);
+  const [openIdx, setOpenIdx] = useState<number>(0);
   const [hoverIdx, setHoverIdx] = useState<number | null>(null);
-  const active = SERVICES[hoverIdx ?? openIdx];
+
+  const resolvedIdx =
+    hoverIdx !== null && hoverIdx >= 0 && hoverIdx < SERVICES.length
+      ? hoverIdx
+      : openIdx >= 0 && openIdx < SERVICES.length
+      ? openIdx
+      : 0;
+
+  const active = SERVICES[resolvedIdx] ?? SERVICES[0];
   const ActiveIcon = SERVICE_ICONS[active.icon];
 
   return (
@@ -40,7 +48,7 @@ export default function Services() {
               >
                 <div className="flex items-start justify-between">
                   <span className="tabular font-display text-7xl font-extrabold leading-none text-brass-400">
-                    {String(openIdx + 1).padStart(2, "0")}
+                    {String(resolvedIdx + 1).padStart(2, "0")}
                   </span>
                   <ActiveIcon className="h-9 w-9 text-mist-400" />
                 </div>
@@ -49,7 +57,7 @@ export default function Services() {
                 <div className="mt-6 h-[3px] w-full bg-ink-700">
                   <div
                     className="h-full bg-brass-400 transition-[width] duration-500"
-                    style={{ width: `${((openIdx + 1) / SERVICES.length) * 100}%` }}
+                    style={{ width: `${((resolvedIdx + 1) / SERVICES.length) * 100}%` }}
                   />
                 </div>
                 <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.24em] text-mist-500">
