@@ -2,8 +2,7 @@ export const NAV = [
   { href: "#inicio", label: "Inicio" },
   { href: "#servicios", label: "Servicios" },
   { href: "#nosotros", label: "Nosotros" },
-  { href: "#calendario", label: "Calendario" },
-  { href: "#calculadora", label: "Calculadora SII" },
+  { href: "#herramientas", label: "Herramientas" },
   { href: "#contacto", label: "Contacto" },
 ];
 

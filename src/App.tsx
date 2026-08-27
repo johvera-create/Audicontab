@@ -1,12 +1,10 @@
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Ticker from "./components/Ticker";
-import RentaBand from "./components/RentaBand";
 import Services from "./components/Services";
 import About from "./components/About";
 import Process from "./components/Process";
-import TaxCalendar from "./components/TaxCalendar";
-import TaxCalculator from "./components/TaxCalculator";
+import TaxHub from "./components/TaxHub";
 import Reviews from "./components/Reviews";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -20,12 +18,10 @@ export default function App() {
       <main>
         <Hero />
         <Ticker />
-        <RentaBand />
         <Services />
         <About />
         <Process />
-        <TaxCalendar />
-        <TaxCalculator />
+        <TaxHub />
         <Reviews />
         <Contact />
       </main>
