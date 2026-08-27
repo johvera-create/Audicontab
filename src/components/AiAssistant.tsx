@@ -286,15 +286,9 @@ export default function AiAssistant() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [isTyping, setIsTyping] = useState(false);
-  const [geminiApiKey, setGeminiApiKey] = useState<string>(() => {
-    try {
-      return window.localStorage.getItem("audicontab_gemini_key") || "";
-    } catch {
-      return "";
-    }
-  });
-  const [showConfig, setShowConfig] = useState(false);
-  const [tempKey, setTempKey] = useState("");
+  
+  // Clave Gemini desde variables de entorno o almacenamiento
+  const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -306,17 +300,6 @@ export default function AiAssistant() {
       scrollToBottom();
     }
   }, [messages, isOpen]);
-
-  const handleSaveKey = () => {
-    const k = tempKey.trim();
-    setGeminiApiKey(k);
-    try {
-      window.localStorage.setItem("audicontab_gemini_key", k);
-    } catch {
-      /* sin persistencia */
-    }
-    setShowConfig(false);
-  };
 
   const handleSend = async (textToSend?: string) => {
     const text = (textToSend || input).trim();
@@ -333,7 +316,7 @@ export default function AiAssistant() {
     setInput("");
     setIsTyping(true);
 
-    // Si tiene clave de Google Gemini API, consulta la IA generativa real
+    // Si hay clave configurada en el sistema, consulta la IA generativa de Google Gemini
     if (geminiApiKey) {
       try {
         const aiText = await callGeminiApi(geminiApiKey, messages, text);
@@ -353,7 +336,7 @@ export default function AiAssistant() {
       }
     }
 
-    // Motor de respuesta experto tributario local
+    // Motor de respuesta experto tributario local inteligente
     setTimeout(() => {
       const resp = generateSmartResponse(text);
       const botMsg: Message = {
@@ -410,7 +393,7 @@ export default function AiAssistant() {
 
           {/* Tooltip hover */}
           <span className="pointer-events-none absolute bottom-full mb-2.5 whitespace-nowrap border border-brass-400/40 bg-ink-950 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-brass-300 opacity-0 shadow-lg transition-all duration-200 group-hover:opacity-100 group-hover:-translate-y-1">
-            Asistente IA Tributario {geminiApiKey ? "(Gemini Pro)" : ""}
+            Asistente IA Tributario
           </span>
         </button>
       </div>
@@ -430,14 +413,7 @@ export default function AiAssistant() {
                 <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full border border-ink-950 bg-[#22c55e]" />
               </div>
               <div>
-                <div className="flex items-center gap-1.5">
-                  <p className="font-display text-sm font-bold text-paper-50">Audicontab IA</p>
-                  {geminiApiKey && (
-                    <span className="bg-brass-400/20 text-brass-300 border border-brass-400/40 text-[9px] font-mono px-1 rounded">
-                      Gemini
-                    </span>
-                  )}
-                </div>
+                <p className="font-display text-sm font-bold text-paper-50">Audicontab IA</p>
                 <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-brass-300">
                   Asesoría Tributaria Activa
                 </p>
@@ -445,17 +421,6 @@ export default function AiAssistant() {
             </div>
 
             <div className="flex items-center gap-1">
-              <button
-                type="button"
-                onClick={() => {
-                  setTempKey(geminiApiKey);
-                  setShowConfig(!showConfig);
-                }}
-                title="Configurar clave Gemini IA (Gratis)"
-                className="p-1.5 text-mist-400 transition-colors hover:text-paper-100"
-              >
-                ⚙️
-              </button>
               <button
                 type="button"
                 onClick={() => setMessages([INITIAL_MESSAGE])}
@@ -473,40 +438,6 @@ export default function AiAssistant() {
               </button>
             </div>
           </div>
-
-          {/* Modal de Configuración Clave Gemini Gratuita */}
-          {showConfig && (
-            <div className="border-b border-paper-50/15 bg-ink-900 p-3.5 text-xs">
-              <p className="font-bold text-paper-50 mb-1">Activar Google Gemini AI (100% Gratis):</p>
-              <p className="text-mist-400 mb-2 leading-tight">
-                Obtén tu clave gratis en{" "}
-                <a
-                  href="https://aistudio.google.com/app/apikey"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-brass-300 underline"
-                >
-                  aistudio.google.com
-                </a>
-              </p>
-              <div className="flex gap-2">
-                <input
-                  type="password"
-                  value={tempKey}
-                  onChange={(e) => setTempKey(e.target.value)}
-                  placeholder="Pega tu API Key de Gemini..."
-                  className="flex-1 bg-ink-950 border border-paper-50/20 px-2.5 py-1.5 text-paper-50 font-mono text-[11px] outline-none focus:border-brass-400"
-                />
-                <button
-                  type="button"
-                  onClick={handleSaveKey}
-                  className="bg-brass-500 hover:bg-brass-400 px-3 py-1.5 font-mono text-[11px] font-bold text-paper-50"
-                >
-                  Guardar
-                </button>
-              </div>
-            </div>
-          )}
 
           {/* Área de Mensajes con Formateador de Markdown */}
           <div className="flex-1 overflow-y-auto p-3.5 space-y-3">
