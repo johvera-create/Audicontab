@@ -6,6 +6,7 @@ import About from "./components/About";
 import Process from "./components/Process";
 import TaxHub from "./components/TaxHub";
 import Reviews from "./components/Reviews";
+import Faq from "./components/Faq";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import WhatsAppFloat from "./components/WhatsAppFloat";
@@ -24,6 +25,7 @@ export default function App() {
         <Process />
         <TaxHub />
         <Reviews />
+        <Faq />
         <Contact />
       </main>
       <Footer />
