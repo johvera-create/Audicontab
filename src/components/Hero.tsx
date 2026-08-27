@@ -92,7 +92,8 @@ function LedgerCard() {
               Saldo del mes
             </p>
             <p className="mt-1 font-mono text-[10px] text-ink-500">
-              Debe $4.040.000 · Haber $1.090.500
+              Debe {formatCLP(LEDGER_ENTRIES.reduce((s, e) => s + e.debe, 0))} · Haber{" "}
+              {formatCLP(LEDGER_ENTRIES.reduce((s, e) => s + e.haber, 0))}
             </p>
           </div>
           <p className="tabular font-display text-2xl font-extrabold text-ink-900 md:text-[1.7rem]">
