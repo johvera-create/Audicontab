@@ -22,6 +22,10 @@ export const MAPS_URL =
 export const QUILLOTA_COORDS = "32.88° S / 71.26° O";
 export const CONTACT_EMAIL = "johanvera589@gmail.com";
 
+/** Webhook de n8n para automatización de leads */
+export const N8N_WEBHOOK_URL = "https://n8n-n8n.db8enk.easypanel.host/webhook/audicontab-contacto";
+export const N8N_WEBHOOK_TEST_URL = "https://n8n-n8n.db8enk.easypanel.host/webhook-test/audicontab-contacto";
+
 /** Endpoint AJAX de FormSubmit: entrega los mensajes a CONTACT_EMAIL sin claves de API. */
 export const CONTACT_FORM_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
 

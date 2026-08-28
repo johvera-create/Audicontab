@@ -4,6 +4,8 @@ import {
   CONTACT_EMAIL,
   CONTACT_FORM_ENDPOINT,
   MAPS_URL,
+  N8N_WEBHOOK_URL,
+  N8N_WEBHOOK_TEST_URL,
   SERVICES,
   WHATSAPP_DISPLAY,
   WHATSAPP_NUMBER,
@@ -66,7 +68,30 @@ export default function Contact() {
     setStatus("sending");
     setErrorMsg("");
     try {
-      // FormSubmit (AJAX) entrega el mensaje a CONTACT_EMAIL sin necesidad de claves de API.
+      const n8nPayload = {
+        nombre: form.nombre.trim(),
+        email: form.email.trim(),
+        telefono: form.telefono.trim(),
+        servicio: form.servicio,
+        mensaje: form.mensaje.trim(),
+        fecha: new Date().toISOString(),
+        origen: "Formulario Web audicontabltda.cl",
+      };
+
+      // Disparar Webhook de n8n para automatizaciones
+      fetch(N8N_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(n8nPayload),
+      }).catch(() => {
+        fetch(N8N_WEBHOOK_TEST_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(n8nPayload),
+        }).catch(() => null);
+      });
+
+      // FormSubmit (AJAX) entrega el mensaje a CONTACT_EMAIL como respaldo
       const res = await fetch(CONTACT_FORM_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
