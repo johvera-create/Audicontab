@@ -31,7 +31,7 @@ export function AuditSeal({ className }: { className?: string }) {
       <img
         src="/logo.png"
         alt="Audicontab"
-        className="relative h-[48%] w-[48%] rounded-full object-cover shadow-md bg-white p-0.5"
+        className="relative h-[50%] w-[50%] rounded-full object-contain drop-shadow-md"
       />
     </div>
   );

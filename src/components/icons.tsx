@@ -173,7 +173,7 @@ export function LogoMark({ className }: { className?: string }) {
     <img
       src="/logo.png"
       alt="Audicontab Limitada"
-      className={className ?? "h-10 w-10 rounded-full object-cover shadow-sm bg-white"}
+      className={className ?? "h-10 w-10 rounded-full object-contain"}
     />
   );
 }
