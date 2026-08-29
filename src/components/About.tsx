@@ -127,6 +127,79 @@ export default function About() {
           </Reveal>
           <AuditSeal className="absolute -bottom-10 -right-4 h-32 w-32 text-brass-500 drop-shadow-lg md:-right-8 md:h-40 md:w-40" />
         </div>
+
+        {/* Galería / Nuestras Oficinas en Quillota */}
+        <div className="mt-12 border-t border-ink-900/10 pt-12 lg:col-span-2">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+              <span className="inline-block border border-brass-500/40 bg-brass-400/15 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-brass-600">
+                Nuestra Casa Matriz
+              </span>
+              <h3 className="mt-3 font-display text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
+                Un espacio cercano en el corazón de Quillota
+              </h3>
+            </div>
+            <p className="max-w-md text-[14.5px] leading-relaxed text-ink-600">
+              Nos encuentras en la tradicional <strong>Galería La Fuente Colonial</strong> (O'Higgins 480). Entras por el pasillo central, pasas la cafetería y en la <strong>Oficina 15</strong> te recibimos con atención cercana y personalizada.
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+            {/* Foto 1: Fachada Colonial */}
+            <Reveal delay={100} y={20}>
+              <div className="group relative overflow-hidden border border-ink-900/15 bg-paper-50 shadow-md transition-all duration-300 hover:shadow-xl">
+                <div className="aspect-[4/3] overflow-hidden bg-ink-950">
+                  <img
+                    src="/galeria-exterior.jpg"
+                    alt="Galería La Fuente Colonial - O'Higgins 480, Quillota"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-4 sm:p-5">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-2 w-2 rounded-full bg-brass-500" />
+                    <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-brass-600">
+                      Entrada Principal · O'Higgins 480
+                    </p>
+                  </div>
+                  <p className="mt-1 font-display text-base font-bold text-ink-900">
+                    Galería La Fuente Colonial
+                  </p>
+                  <p className="mt-1 text-xs text-ink-600">
+                    Fachada colonial en pleno centro de Quillota, con cafetería y fácil acceso.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Foto 2: Oficina 15 */}
+            <Reveal delay={200} y={20}>
+              <div className="group relative overflow-hidden border border-ink-900/15 bg-paper-50 shadow-md transition-all duration-300 hover:shadow-xl">
+                <div className="aspect-[4/3] overflow-hidden bg-ink-950">
+                  <img
+                    src="/oficina-15.jpg"
+                    alt="Oficina 15 - Audicontab Limitada"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-4 sm:p-5">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-2 w-2 rounded-full bg-[#22c55e]" />
+                    <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-brass-600">
+                      Oficina 15 · Audicontab Limitada
+                    </p>
+                  </div>
+                  <p className="mt-1 font-display text-base font-bold text-ink-900">
+                    Atención Personalizada y Privada
+                  </p>
+                  <p className="mt-1 text-xs text-ink-600">
+                    Espacio tranquilo y cómodo para revisar la contabilidad e impuestos de tu negocio.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
       </div>
     </section>
   );
