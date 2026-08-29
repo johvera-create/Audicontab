@@ -49,47 +49,41 @@ export default function About() {
             lines={["Contadores de oficio,", "cercanos por convicción."]}
           />
           <Reveal delay={160}>
-            <p className="mt-7 text-[16px] leading-relaxed text-ink-700">
-              En <strong className="font-semibold text-ink-900">Audicontab Limitada</strong> somos un
-              equipo de profesionales contadores con años de experiencia brindando servicios de
-              calidad en Quillota y la región de Valparaíso. Nos especializamos en asesoría contable,
-              tributaria y gestión empresarial.
-            </p>
-            <p className="mt-4 text-[16px] leading-relaxed text-ink-700">
-              Nuestro enfoque personalizado nos permite ofrecer soluciones adaptadas a las
-              necesidades específicas de cada empresa: desde el emprendedor que parte con boletas de
-              honorarios hasta la pyme que necesita su contabilidad completa al día.
+            <p className="mt-6 text-[16px] leading-relaxed text-ink-700 md:text-[17px]">
+              En <strong className="font-semibold text-ink-900">Audicontab Limitada</strong> combinamos
+              rigor técnico y cercanía humana. Asesoramos a empresas y profesionales en Quillota y la
+              región de Valparaíso para mantener su contabilidad al día y sus impuestos bajo control.
             </p>
           </Reveal>
 
-          <ul className="mt-9 space-y-3.5">
+          <ul className="mt-8 space-y-3">
             {VALUES.map((v, i) => (
-              <Reveal key={v} delay={i * 110} y={16}>
-                <li className="group flex items-center gap-4">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-brass-500/60 bg-brass-400/15 text-brass-600 transition-all duration-300 group-hover:bg-brass-400 group-hover:text-ink-950">
-                    <CheckIcon className="h-4 w-4" />
+              <Reveal key={v} delay={i * 100} y={14}>
+                <li className="group flex items-center gap-3.5">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center border border-brass-500/60 bg-brass-400/15 text-brass-600 transition-all duration-300 group-hover:bg-brass-400 group-hover:text-ink-950">
+                    <CheckIcon className="h-3.5 w-3.5" />
                   </span>
-                  <span className="text-[15.5px] font-medium text-ink-800">{v}</span>
+                  <span className="text-[15px] font-medium text-ink-800">{v}</span>
                 </li>
               </Reveal>
             ))}
           </ul>
 
-          <Reveal delay={200} y={18}>
+          <Reveal delay={200} y={16}>
             <a
               href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
                 "Cotización de servicios contables"
               )}`}
-              className="group mt-9 flex items-center gap-5 border border-ink-900/20 bg-paper-50 px-6 py-5 transition-all duration-300 hover:-translate-y-1 hover:border-brass-500/70 hover:shadow-[0_18px_40px_-20px_rgba(27,58,92,0.35)]"
+              className="group mt-8 flex items-center gap-4 border border-ink-900/15 bg-paper-50 px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-brass-500/70 hover:shadow-lg"
             >
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center border border-ink-900/20 text-ink-700 transition-colors duration-300 group-hover:bg-ink-900 group-hover:text-brass-400">
-                <MailIcon className="h-[22px] w-[22px]" />
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-ink-900/20 text-ink-700 transition-colors duration-300 group-hover:bg-ink-900 group-hover:text-brass-400">
+                <MailIcon className="h-5 w-5" />
               </span>
               <span>
-                <span className="block font-mono text-[10px] uppercase tracking-[0.24em] text-ink-500">
+                <span className="block font-mono text-[9.5px] uppercase tracking-[0.24em] text-ink-500">
                   Cotiza por correo
                 </span>
-                <span className="link-draw mt-1 inline-block break-all text-[15.5px] font-semibold text-ink-900">
+                <span className="link-draw mt-0.5 inline-block break-all text-[15px] font-semibold text-ink-900">
                   {CONTACT_EMAIL}
                 </span>
               </span>
@@ -100,26 +94,26 @@ export default function About() {
         {/* Panel de cifras */}
         <div className="relative">
           <Reveal y={34}>
-            <div className="relative overflow-hidden bg-ink-950 px-9 py-11 text-paper-50 shadow-[0_36px_80px_-30px_rgba(7,20,34,0.75)] md:px-12 md:py-14">
+            <div className="relative overflow-hidden bg-ink-950 px-8 py-10 text-paper-50 shadow-[0_36px_80px_-30px_rgba(7,20,34,0.75)] md:px-12 md:py-14">
               <div aria-hidden="true" className="ruled-lines-dark absolute inset-0" />
               <div
                 aria-hidden="true"
                 className="absolute inset-0 bg-[radial-gradient(420px_300px_at_90%_10%,rgba(37,99,235,0.18),transparent_62%)]"
               />
               <div className="relative">
-                <p className="font-mono text-[10.5px] uppercase tracking-[0.3em] text-mist-400">
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-mist-400">
                   Balance de nuestra trayectoria
                 </p>
-                <div className="mt-9 grid grid-cols-2 gap-x-6 gap-y-10">
+                <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-8">
                   <Stat value={130} suffix="+" label="Declaraciones al año" />
                   <Stat value={98} suffix="%" label="Clientes que renuevan" delay={120} />
                   <Stat value={100} suffix="%" label="Plazos cumplidos ante el SII" delay={240} />
                   <Stat value={24} suffix=" h" label="Respuesta a tus consultas" delay={360} />
                 </div>
-                <div className="mt-11 flex items-center gap-4 border-t border-paper-50/12 pt-7">
-                  <span className="h-[2px] w-10 bg-brass-400" aria-hidden="true" />
-                  <p className="font-mono text-[10.5px] uppercase tracking-[0.24em] text-mist-400">
-                    Comprometidos con el éxito financiero de nuestros clientes
+                <div className="mt-9 flex items-center gap-3.5 border-t border-paper-50/12 pt-6">
+                  <span className="h-[2px] w-8 bg-brass-400" aria-hidden="true" />
+                  <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-mist-400">
+                    Comprometidos con el orden financiero de tu empresa
                   </p>
                 </div>
               </div>
@@ -129,18 +123,18 @@ export default function About() {
         </div>
 
         {/* Galería / Nuestras Oficinas en Quillota */}
-        <div className="mt-12 border-t border-ink-900/10 pt-12 lg:col-span-2">
+        <div className="mt-14 border-t border-ink-900/10 pt-12 lg:col-span-2">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
               <span className="inline-block border border-brass-500/40 bg-brass-400/15 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-brass-600">
                 Nuestra Casa Matriz
               </span>
-              <h3 className="mt-3 font-display text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
+              <h3 className="mt-2.5 font-display text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
                 Un espacio cercano en el corazón de Quillota
               </h3>
             </div>
             <p className="max-w-md text-[14.5px] leading-relaxed text-ink-600">
-              Nos encuentras en la tradicional <strong>Galería La Fuente Colonial</strong> (O'Higgins 480). Entras por el pasillo central, pasas la cafetería y en la <strong>Oficina 15</strong> te recibimos con atención cercana y personalizada.
+              Te recibimos en la tradicional <strong>Galería La Fuente Colonial</strong> (O'Higgins 480, Oficina 15). Un espacio cómodo y reservado para atender tu negocio.
             </p>
           </div>
 

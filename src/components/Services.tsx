@@ -29,9 +29,9 @@ export default function Services() {
               lines={["Todo el ciclo contable,", "bajo un mismo techo."]}
             />
           </div>
-          <p className="max-w-sm text-[15.5px] leading-relaxed text-ink-600 lg:col-span-4">
-            Seis áreas que cubren la vida completa de tu empresa ante el SII, la municipalidad y
-            Previred. Recorre la lista: cada línea es una partida de nuestro libro.
+          <p className="max-w-sm text-[15px] leading-relaxed text-ink-600 lg:col-span-4">
+            Todo el ciclo contable y tributario de tu empresa ante el SII, Previred y la
+            municipalidad, en un solo lugar.
           </p>
         </div>
 
