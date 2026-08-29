@@ -26,6 +26,10 @@ export const CONTACT_EMAIL = "johanvera589@gmail.com";
 export const N8N_WEBHOOK_URL = "https://n8n-n8n.db8enk.easypanel.host/webhook/audicontab-contacto";
 export const N8N_WEBHOOK_TEST_URL = "https://n8n-n8n.db8enk.easypanel.host/webhook-test/audicontab-contacto";
 
+/** Base de datos en la nube Google Sheets para Reseñas en tiempo real */
+export const REVIEWS_API_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbzZVPC-rxDTYn7gmHB3C7zzhBHgYl-h44x_aMelgzhbFeOsBDiXilt8OObE3G6UIYhbcQ/exec";
+
 /** Endpoint AJAX de FormSubmit: entrega los mensajes a CONTACT_EMAIL sin claves de API. */
 export const CONTACT_FORM_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
 

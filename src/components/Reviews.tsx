@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { CONTACT_EMAIL, makeSeedReviews, type Review } from "../data/site";
+import { CONTACT_EMAIL, REVIEWS_API_ENDPOINT, makeSeedReviews, type Review } from "../data/site";
 import { useInView } from "../hooks/useMotion";
 import { ArrowIcon, CheckIcon, MailIcon } from "./icons";
 import { Eyebrow, MaskLines, Reveal } from "./Reveal";
@@ -112,6 +112,26 @@ export default function Reviews() {
   const [hoverStar, setHoverStar] = useState(0);
   const [success, setSuccess] = useState("");
 
+  // Sincronizar en vivo desde la base de datos Google Sheets
+  useEffect(() => {
+    let active = true;
+    fetch(REVIEWS_API_ENDPOINT, { redirect: "follow" })
+      .then((r) => r.json())
+      .then((data) => {
+        if (active && Array.isArray(data) && data.length > 0) {
+          setReviews(data);
+          try {
+            window.localStorage.setItem(LS_KEY, JSON.stringify(data));
+          } catch {}
+        }
+      })
+      .catch(() => null);
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   useEffect(() => {
     try {
       window.localStorage.setItem(LS_KEY, JSON.stringify(reviews));
@@ -145,7 +165,7 @@ export default function Reviews() {
     return e;
   };
 
-  const onSubmit = (ev: FormEvent) => {
+  const onSubmit = async (ev: FormEvent) => {
     ev.preventDefault();
     const e = validate(form);
     setErrors(e);
@@ -159,11 +179,22 @@ export default function Reviews() {
       comment: form.comment.trim(),
       ts: Date.now(),
     };
+
+    // Actualización inmediata en pantalla
     setReviews((rs) => [review, ...rs]);
     setFreshId(id);
     setSuccess(`¡Gracias, ${review.name.split(" ")[0]}! Tu reseña ya está publicada.`);
     setForm({ name: "", email: "", rating: 0, comment: "" });
     setHoverStar(0);
+
+    // Guardar en la base de datos Google Sheets en la nube
+    try {
+      await fetch(REVIEWS_API_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(review),
+      });
+    } catch {}
   };
 
   return (
