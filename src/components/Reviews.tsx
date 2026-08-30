@@ -269,13 +269,19 @@ export default function Reviews() {
             )}
 
             <form
+              id="deja-tu-resena"
               onSubmit={onSubmit}
               noValidate
-              className="relative border border-ink-900/15 bg-ink-900 px-8 py-8 text-paper-50 shadow-[0_30px_70px_-30px_rgba(7,20,34,0.8)]"
+              className="relative scroll-mt-28 border border-ink-900/15 bg-ink-900 px-8 py-8 text-paper-50 shadow-[0_30px_70px_-30px_rgba(7,20,34,0.8)]"
             >
               <div aria-hidden="true" className="ruled-lines-dark absolute inset-0 opacity-70" />
               <div className="relative">
-                <h3 className="font-display text-2xl font-bold tracking-tight">Deja tu reseña</h3>
+                <div className="flex items-center justify-between">
+                  <h3 className="font-display text-2xl font-bold tracking-tight">Deja tu reseña</h3>
+                  <span className="border border-brass-500/60 bg-brass-400/15 px-2 py-0.5 font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] text-brass-300">
+                    Tu opinión cuenta
+                  </span>
+                </div>
                 <p className="mt-1.5 text-[13.5px] leading-relaxed text-mist-400">
                   ¿Trabajaste con nosotros? Tu opinión es muy valiosa para ayudarnos a seguir mejorando.
                 </p>
