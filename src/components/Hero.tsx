@@ -159,10 +159,10 @@ export default function Hero() {
             siempre dentro de plazo.
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-4">
+          <div className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
             <a
               href="#contacto"
-              className="group inline-flex items-center gap-3 bg-brass-400 px-7 py-4 font-mono text-[13px] font-semibold uppercase tracking-[0.14em] text-ink-950 transition-all duration-300 hover:bg-brass-300 hover:shadow-[0_14px_36px_-10px_rgba(229,173,67,0.65)]"
+              className="group inline-flex items-center gap-3 bg-brass-400 px-6 py-3.5 font-mono text-[12.5px] font-semibold uppercase tracking-[0.14em] text-ink-950 transition-all duration-300 hover:bg-brass-300 hover:shadow-[0_14px_36px_-10px_rgba(229,173,67,0.65)] sm:px-7 sm:py-4 sm:text-[13px]"
             >
               Agenda una reunión
               <ArrowIcon className="h-[18px] w-[18px] transition-transform duration-300 group-hover:translate-x-1.5" />
@@ -171,14 +171,14 @@ export default function Hero() {
               href={waLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-3 border border-paper-50/25 px-7 py-4 font-mono text-[13px] uppercase tracking-[0.14em] text-paper-50 transition-all duration-300 hover:border-brass-400 hover:text-brass-300"
+              className="group inline-flex items-center gap-3 border border-paper-50/25 px-6 py-3.5 font-mono text-[12.5px] uppercase tracking-[0.14em] text-paper-50 transition-all duration-300 hover:border-brass-400 hover:text-brass-300 sm:px-7 sm:py-4 sm:text-[13px]"
             >
               <WhatsAppIcon className="h-[18px] w-[18px] text-[#4ade80] transition-transform duration-300 group-hover:scale-110" />
               Escríbenos por WhatsApp
             </a>
           </div>
 
-          <div className="mt-14 grid max-w-xl grid-cols-3 gap-6 border-t border-paper-50/12 pt-8">
+          <div className="mt-10 grid max-w-xl grid-cols-3 gap-3 border-t border-paper-50/12 pt-6 sm:mt-14 sm:gap-6 sm:pt-8">
             <Stat value={130} suffix="+" label="Declaraciones al año" />
             <Stat value={98} suffix="%" label="Clientes que renuevan" delay={120} />
             <Stat value={100} suffix="%" label="Plazos SII cumplidos" delay={240} />

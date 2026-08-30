@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Infografía Estratégica Inbound - Audicontab Limitada</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap');
+    
+    @page {
+      size: 820px 1460px;
+      margin: 0;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #0b132b;
+      color: #f8fafc;
+      width: 820px;
+      height: 1460px;
+      margin: 0 auto;
+      padding: 38px 44px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    /* Fondos y texturas */
+    .bg-glow {
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(217, 119, 6, 0.18) 0%, rgba(11, 19, 43, 0) 70%);
+      pointer-events: none;
+    }
+    .bg-glow-bottom {
+      position: absolute;
+      bottom: -100px;
+      left: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.18) 0%, rgba(11, 19, 43, 0) 70%);
+      pointer-events: none;
+    }
+    
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(248, 250, 252, 0.12);
+      padding-bottom: 18px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    }
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .brand-text h1 {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #f8fafc;
+      line-height: 1.1;
+    }
+    .brand-text span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #d97706;
+    }
+    .header-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #94a3b8;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(15, 23, 42, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* Hero Title */
+    .hero-title {
+      text-align: center;
+      margin: 10px 0 16px 0;
+    }
+    .eyebrow {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: #d97706;
+      background: rgba(217, 119, 6, 0.12);
+      padding: 5px 14px;
+      border-radius: 30px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(217, 119, 6, 0.3);
+    }
+    .hero-title h2 {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.22;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+    .hero-title p {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-top: 6px;
+    }
+
+    /* Flywheel Section Cards */
+    .section-card {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(248, 250, 252, 0.1);
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin-bottom: 16px;
+      position: relative;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 28px -10px rgba(0, 0, 0, 0.5);
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .step-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .tag-tofu { background: rgba(37, 99, 235, 0.2); color: #60a5fa; border: 1px solid rgba(37, 99, 235, 0.4); }
+    .tag-mofu { background: rgba(217, 119, 6, 0.2); color: #fbbf24; border: 1px solid rgba(217, 119, 6, 0.4); }
+    .tag-bofu { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.4); }
+    
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+    
+    /* Grid de Dolor / Estadísticas */
+    .stat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .stat-box {
+      background: rgba(2, 6, 23, 0.55);
+      border: 1px solid rgba(248, 250, 252, 0.08);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .stat-num {
+      font-size: 26px;
+      font-weight: 800;
+      color: #ef4444;
+      font-family: 'IBM Plex Mono', monospace;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .stat-text {
+      font-size: 11.5px;
+      color: #cbd5e1;
+      line-height: 1.35;
+    }
+
+    /* Grid de Servicios */
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .srv-item {
+      background: rgba(2, 6, 23, 0.55);
+      border: 1px solid rgba(248, 250, 252, 0.08);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .srv-item h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .srv-item p {
+      font-size: 11px;
+      color: #94a3b8;
+      line-height: 1.3;
+    }
+
+    /* Prueba Social Box */
+    .trust-box {
+      display: flex;
+      justify-content: space-around;
+      background: rgba(2, 6, 23, 0.6);
+      border: 1px solid rgba(248, 250, 252, 0.08);
+      border-radius: 10px;
+      padding: 12px 10px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+    .trust-item strong {
+      display: block;
+      font-size: 21px;
+      font-weight: 800;
+      color: #d97706;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .trust-item span {
+      font-size: 10px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Contenedor CTA Seguro */
+    .cta-container {
+      border-radius: 8px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cta-tofu {
+      background: #1e3a8a;
+      border: 1px solid #3b82f6;
+    }
+    .cta-mofu {
+      background: #78350f;
+      border: 1px solid #d97706;
+    }
+    .cta-bofu {
+      background: #15803d;
+      border: 1px solid #22c55e;
+      box-shadow: 0 4px 18px rgba(34, 197, 94, 0.4);
+    }
+    
+    .cta-title {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #ffffff;
+    }
+    .cta-desc {
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.85);
+      margin-top: 2px;
+    }
+    .cta-icon {
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffffff;
+      padding-left: 12px;
+      white-space: nowrap;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid rgba(248, 250, 252, 0.12);
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #64748b;
+    }
+    .footer-loc {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+    .footer-url {
+      font-family: 'IBM Plex Mono', monospace;
+      color: #d97706;
+      font-weight: 700;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+  <div class="bg-glow-bottom"></div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="brand">
+      <div class="brand-logo">
+        <img src="public/logo.png" alt="Audicontab">
+      </div>
+      <div class="brand-text">
+        <h1>AUDICONTAB</h1>
+        <span>Limitada · Quillota</span>
+      </div>
+    </div>
+    <div class="header-badge">
+      Inbound Marketing II · MKA1213
+    </div>
+  </div>
+
+  <!-- Hero Title -->
+  <div class="hero-title">
+    <span class="eyebrow">Guía Estratégica para Pymes</span>
+    <h2>¿Tu Empresa al Día con el SII?<br><span style="color: #d97706;">El Ciclo Contable Sin Multas</span></h2>
+    <p>Todo lo que necesitas para operar con tranquilidad tributaria en Quillota y la V Región.</p>
+  </div>
+
+  <!-- BLOQUE 1: FASE ATRAER (ToFU) -->
+  <div class="section-card">
+    <div class="card-header">
+      <h3 class="card-title">1. El Riesgo de las Omisiones Tributarias</h3>
+      <span class="step-tag tag-tofu">Flywheel · Atraer (ToFU)</span>
+    </div>
+    
+    <div class="stat-row">
+      <div class="stat-box">
+        <span class="stat-num">68%</span>
+        <span class="stat-text">de las multas a Pymes ocurren por retrasos en el F29 e imposiciones.</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" style="color: #fbbf24;">Día 12</span>
+        <span class="stat-text">Vencimiento mensual clave ante el SII y cotizaciones Previred.</span>
+      </div>
+    </div>
+
+    <!-- CTA 1 -->
+    <div class="cta-container cta-tofu">
+      <div>
+        <div class="cta-title">📥 CTA 1: Descarga el Calendario Tributario 2026</div>
+        <div class="cta-desc">Material educativo en PDF con todas las fechas del SII y Previred</div>
+      </div>
+      <div class="cta-icon">➔</div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 2: FASE INTERACTUAR (MoFU) -->
+  <div class="section-card">
+    <div class="card-header">
+      <h3 class="card-title">2. Los 4 Pilares del Control Contable</h3>
+      <span class="step-tag tag-mofu">Flywheel · Interactuar (MoFU)</span>
+    </div>
+
+    <div class="services-grid">
+      <div class="srv-item">
+        <h4><span>📊</span> Declaración IVA F29</h4>
+        <p>Conciliación mensual y aprovechamiento legal del crédito fiscal.</p>
+      </div>
+      <div class="srv-item">
+        <h4><span>👥</span> Remuneraciones</h4>
+        <p>Liquidaciones, contratos y pago electrónico en Previred.</p>
+      </div>
+      <div class="srv-item">
+        <h4><span>🏢</span> Constitución SpA</h4>
+        <p>Creación de empresa en 1 día, RUT e inicio de actividades SII.</p>
+      </div>
+      <div class="srv-item">
+        <h4><span>📅</span> Operación Renta F22</h4>
+        <p>Balances, declaraciones juradas y maximización de devolución.</p>
+      </div>
+    </div>
+
+    <!-- CTA 2 -->
+    <div class="cta-container cta-mofu">
+      <div>
+        <div class="cta-title">📊 CTA 2: Usa la Calculadora de IVA y Boletas Online</div>
+        <div class="cta-desc">Simula tus impuestos en tiempo real en audicontabltda.cl</div>
+      </div>
+      <div class="cta-icon">➔</div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 3: FASE DELEITAR / CONVERTIR (BoFU) -->
+  <div class="section-card">
+    <div class="card-header">
+      <h3 class="card-title">3. Respaldo Profesional y Oficina Física</h3>
+      <span class="step-tag tag-bofu">Flywheel · Deleitar / Cerrar (BoFU)</span>
+    </div>
+
+    <div class="trust-box">
+      <div class="trust-item">
+        <strong>130+</strong>
+        <span>Declaraciones / Año</span>
+      </div>
+      <div class="trust-item">
+        <strong>98%</strong>
+        <span>Clientes Fieles</span>
+      </div>
+      <div class="trust-item">
+        <strong>100%</strong>
+        <span>Plazos SII al Día</span>
+      </div>
+      <div class="trust-item">
+        <strong>Oficina 15</strong>
+        <span>Galería Colonial</span>
+      </div>
+    </div>
+
+    <!-- CTA 3 -->
+    <div class="cta-container cta-bofu">
+      <div>
+        <div class="cta-title">📲 CTA 3: Agenda tu Diagnóstico Tributario Gratuito</div>
+        <div class="cta-desc">Conversa con un contador auditor por WhatsApp o en nuestra oficina</div>
+      </div>
+      <div class="cta-icon">💬</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-loc">
+      <span>📍 O'Higgins 480, Oficina 15, Quillota</span>
+      <span>·</span>
+      <span>Atención Presencial y Online</span>
+    </div>
+    <div class="footer-url">
+      https://audicontabltda.cl
+    </div>
+  </div>
+
+</body>
+</html>

@@ -374,19 +374,19 @@ export default function AiAssistant() {
 
   return (
     <>
-      {/* Botón flotante discreto en esquina inferior derecha */}
-      <div className="fixed bottom-6 right-24 z-[60] flex items-center">
+      {/* Botón Flotante para Abrir el Chat (IA) */}
+      <div className="fixed bottom-16 right-4 z-[55] sm:bottom-6 sm:right-24">
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
           aria-label="Abrir Asistente IA de Audicontab"
-          className="group relative flex h-14 w-14 items-center justify-center rounded-full border-2 border-brass-400 bg-ink-900 shadow-[0_12px_32px_-8px_rgba(37,99,235,0.5)] transition-all duration-300 hover:scale-105 active:scale-95"
+          className="group relative flex h-12 w-12 items-center justify-center rounded-full border-2 border-brass-400 bg-ink-900 shadow-[0_12px_32px_-8px_rgba(37,99,235,0.5)] transition-all duration-300 hover:scale-105 active:scale-95 sm:h-14 sm:w-14"
         >
           {/* Logo */}
           <img
             src="/logo.png"
             alt="Audicontab AI"
-            className="h-9 w-9 rounded-full object-cover shadow-sm bg-white"
+            className="h-8 w-8 rounded-full object-contain drop-shadow sm:h-9 sm:w-9"
           />
 
           {/* Insignia Online */}
