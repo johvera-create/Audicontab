@@ -383,6 +383,30 @@ export default function Reviews() {
                 </div>
               </div>
             </form>
+
+            {/* Tarjeta QR para Clientes y Atención Presencial */}
+            <div className="border border-ink-900/15 bg-paper-50 p-5 shadow-sm">
+              <div className="flex items-center gap-4">
+                <div className="relative flex h-20 w-20 shrink-0 items-center justify-center border border-ink-900/15 bg-white p-1.5 shadow-sm">
+                  <img
+                    src="/qr-resenas.png"
+                    alt="Código QR para Calificar Audicontab"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+                <div>
+                  <span className="inline-block border border-brass-500/40 bg-brass-400/15 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-brass-600">
+                    Escanea con tu cámara
+                  </span>
+                  <p className="mt-1 font-display text-sm font-bold text-ink-900">
+                    ¿Estás en nuestra oficina?
+                  </p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-ink-600">
+                    Escanea el código QR desde tu celular para calificar tu atención en 10 segundos.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Muro de reseñas o Estado vacío */}

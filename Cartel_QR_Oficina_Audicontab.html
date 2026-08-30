@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cartel QR de Reseñas - Audicontab Limitada</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=IBM+Plex+Mono:wght@600;700&display=swap');
+    @page {
+      size: A4 portrait;
+      margin: 15mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #ffffff;
+      color: #0b132b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 95vh;
+      text-align: center;
+    }
+    .frame {
+      border: 3px solid #0b132b;
+      padding: 40px 30px;
+      border-radius: 20px;
+      max-width: 480px;
+      width: 100%;
+      background: #f8fafc;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      position: relative;
+    }
+    .badge {
+      display: inline-block;
+      background: #0b132b;
+      color: #f8fafc;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 30px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+    .stars {
+      color: #d97706;
+      font-size: 26px;
+      letter-spacing: 4px;
+      margin-bottom: 10px;
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #0b132b;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    p.subtitle {
+      font-size: 13px;
+      color: #475569;
+      margin-bottom: 25px;
+      line-height: 1.4;
+    }
+    .qr-wrapper {
+      background: #ffffff;
+      padding: 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      display: inline-block;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .qr-wrapper img {
+      width: 220px;
+      height: 220px;
+      display: block;
+    }
+    .step-box {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 11px;
+      color: #334155;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .footer {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 15px;
+      font-size: 10.5px;
+      color: #64748b;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="frame">
+    <div class="badge">Audicontab Limitada</div>
+    <div class="stars">★★★★★</div>
+    <h1>¿Cómo fue tu atención hoy?</h1>
+    <p class="subtitle">Tu opinión nos ayuda a seguir mejorando y apoyando a más emprendedores de Quillota.</p>
+
+    <div class="qr-wrapper">
+      <img src="public/qr-resenas.png" alt="Código QR Reseñas">
+    </div>
+
+    <div class="step-box">
+      📱 Abre la cámara de tu celular ➔ Apunta al código QR ➔ ¡Deja tu opinión en 10 segundos!
+    </div>
+
+    <div class="footer">
+      O'Higgins 480, Oficina 15, Quillota · audicontabltda.cl
+    </div>
+  </div>
+
+</body>
+</html>
