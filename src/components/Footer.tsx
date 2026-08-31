@@ -97,12 +97,30 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-5 border-t border-paper-50/10 pt-7 sm:flex-row">
+        {/* Cobertura Geográfica y Palabras Clave SEO Local */}
+        <div className="mt-12 border-t border-paper-50/10 pt-8">
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.24em] text-brass-400">
+            Cobertura en la Región de Valparaíso &amp; Todo Chile
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2 text-[12px] text-mist-400">
+            <span className="border border-paper-50/10 bg-ink-900/60 px-2.5 py-1">📍 Quillota</span>
+            <span className="border border-paper-50/10 bg-ink-900/60 px-2.5 py-1">📍 La Calera</span>
+            <span className="border border-paper-50/10 bg-ink-900/60 px-2.5 py-1">📍 La Cruz</span>
+            <span className="border border-paper-50/10 bg-ink-900/60 px-2.5 py-1">📍 Limache</span>
+            <span className="border border-paper-50/10 bg-ink-900/60 px-2.5 py-1">📍 Nogales / El Melón</span>
+            <span className="border border-paper-50/10 bg-ink-900/60 px-2.5 py-1">📍 Viña del Mar</span>
+            <span className="border border-paper-50/10 bg-ink-900/60 px-2.5 py-1">📍 Valparaíso</span>
+            <span className="border border-paper-50/10 bg-ink-900/60 px-2.5 py-1">📍 Quilpué &amp; Villa Alemana</span>
+            <span className="border border-paper-50/10 bg-ink-900/60 px-2.5 py-1">🌐 Atención Online a Todo Chile</span>
+          </div>
+        </div>
+
+        <div className="mt-10 flex flex-col items-center justify-between gap-5 border-t border-paper-50/10 pt-7 sm:flex-row">
           <p className="font-mono text-[11px] tracking-[0.12em] text-mist-500">
             © 2025 Audicontab Limitada · Todos los derechos reservados
           </p>
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-mist-500">
-            Quillota · Región de Valparaíso · Chile
+            O'Higgins 480, Of. 15 · Quillota · Chile
           </p>
           <a
             href="#inicio"
