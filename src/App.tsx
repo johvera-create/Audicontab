@@ -2,6 +2,7 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Ticker from "./components/Ticker";
 import Services from "./components/Services";
+import PlanEstimator from "./components/PlanEstimator";
 import About from "./components/About";
 import Process from "./components/Process";
 import TaxHub from "./components/TaxHub";
@@ -22,6 +23,7 @@ export default function App() {
         <Hero />
         <Ticker />
         <Services />
+        <PlanEstimator />
         <About />
         <Process />
         <TaxHub />
