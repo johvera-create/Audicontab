@@ -239,7 +239,7 @@ function generateSmartResponse(query: string): { text: string; options?: string[
   // Regímenes Tributarios
   if (q.includes("regimen") || q.includes("régimen") || q.includes("pro pyme") || q.includes("14 d")) {
     return {
-      text: "⚖️ **Regímenes Tributarios para Pymes en Chile (Art. 14 D):**\n\n• **Pro Pyme General (14 D3):**\n  - Paga 25% de impuesto corporativo.\n  - Traslada el 100% del crédito tributario a los socios.\n  - Recomendado si reinviertes utilidades.\n\n• **Pro Pyme Transparente (14 D8):**\n  - **La empresa no paga impuesto de 1ra categoría**.\n  - Las utilidades tributan directamente en el Global Complementario de los dueños.\n  - Recomendado para servicios y profesionales.",
+      text: "⚖️ **Regímenes Tributarios para Pymes en Chile (Art. 14 D):**\n\n• **Pro Pyme General (14 D3):**\n  - Tasa Impuesto 1ra Categoría (IDPC): **12.5% transitoria (años 2026 y 2027)**, **15.0% (año 2028)** y **25.0% permanente (desde 2029)**.\n  - Traslada el 100% del crédito tributario a los socios.\n  - Recomendado si reinviertes utilidades para crecer.\n\n• **Pro Pyme Transparente (14 D8):**\n  - **0% impuesto de 1ra categoría (empresa liberada)**.\n  - Las utilidades tributan directamente en el Global Complementario de los dueños.\n  - Recomendado para servicios, consultorías y profesionales.",
       options: ["¿Cómo crear una empresa SpA?", "Cotizar asesoría contable", "Hablar con un contador"],
       ctaWhatsApp: "Hola Audicontab, me gustaría asesoría para elegir el mejor régimen tributario para mi empresa.",
     };

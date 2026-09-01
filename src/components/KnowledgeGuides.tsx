@@ -95,11 +95,11 @@ const GUIDES: Guide[] = [
       points: [
         {
           h: "1. Régimen Pro Pyme General (Artículo 14 D N°3)",
-          p: "Aplica una tasa corporativa de Impuesto de Primera Categoría (25%) sobre la base imponible y otorga a los socios el 100% de crédito tributario en su Global Complementario. Es ideal para empresas comerciales que reinvierten utilidades para crecer.",
+          p: "Aplica el Impuesto de Primera Categoría (IDPC) sobre la base imponible y traslada el 100% del crédito tributario a los socios en su Global Complementario. Las tasas aplicables según el año comercial son: 12,5% transitoria para los años comerciales 2026 (AT 2027) y 2027 (AT 2028); 15,0% transitoria para el año 2028 (AT 2029); y 25,0% tasa base permanente a partir del año 2029 (AT 2030). Es ideal para empresas comerciales que reinvierten utilidades para crecer.",
         },
         {
           h: "2. Régimen Pro Pyme Transparente (Artículo 14 D N°8)",
-          p: "La empresa está 100% liberada del Impuesto de Primera Categoría. La utilidad tributaria pasa directo a los socios tributando en su IGC personal. Es ideal para empresas de servicios, consultorías y profesionales.",
+          p: "La empresa está 100% liberada del Impuesto de Primera Categoría (0% IDPC). La utilidad tributaria pasa directo a los socios tributando únicamente en su IGC personal. Es ideal para empresas de servicios, consultorías y profesionales.",
         },
       ],
       tip: "Analizamos tu proyección de ventas y gastos para recomendarte el régimen más beneficioso antes de los plazos límites de cambio de régimen.",

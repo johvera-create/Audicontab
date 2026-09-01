@@ -27,8 +27,8 @@ const FAQ_ITEMS: FaqItem[] = [
   },
   {
     q: "¿Qué régimen tributario le conviene a mi negocio: Pro Pyme General (14 D3) o Transparente (14 D8)?",
-    a: "Depende de la naturaleza de tus ingresos y si reinviertes utilidades. El régimen Pro Pyme General (14 D3) tributa con tasa corporativa del 25% y otorga 100% de crédito a los socios, ideal para empresas en crecimiento. El régimen Pro Pyme Transparente (14 D8) libera a la empresa del impuesto de primera categoría y tributa directamente en el Global Complementario de los dueños, ideal para empresas de servicios y profesionales.",
-    keywords: "regimen pro pyme general 14 d3, pro pyme transparente 14 d8, planificacion tributaria",
+    a: "Depende de la naturaleza de tu negocio y si reinviertes utilidades. El régimen Pro Pyme General (14 D3) aplica Impuesto de Primera Categoría con tasas vigentes de: 12,5% transitoria para los años comerciales 2026 y 2027; 15,0% para 2028; y 25,0% permanente desde 2029 (trasladando el 100% de crédito a los socios). El régimen Pro Pyme Transparente (14 D8) libera a la empresa del impuesto de primera categoría (0% IDPC) y tributa directo en el Global Complementario de los dueños, ideal para empresas de servicios y profesionales.",
+    keywords: "regimen pro pyme general 14 d3, pro pyme transparente 14 d8, tasa corporativa pyme chile",
   },
   {
     q: "¿Cómo es el proceso si ya tengo otro contador y quiero cambiarme a Audicontab?",
