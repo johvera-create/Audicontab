@@ -25,6 +25,7 @@ export default function Services() {
           <div className="lg:col-span-8">
             <Eyebrow>Nuestros servicios</Eyebrow>
             <MaskLines
+              as="h2"
               className="mt-5 font-display text-4xl font-extrabold leading-[1.02] tracking-tight text-ink-900 sm:text-5xl"
               lines={["Todo el ciclo contable,", "bajo un mismo techo."]}
             />

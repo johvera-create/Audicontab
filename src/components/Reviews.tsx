@@ -210,6 +210,7 @@ export default function Reviews() {
           <div className="lg:col-span-8">
             <Eyebrow>Reseñas y Experiencias</Eyebrow>
             <MaskLines
+              as="h2"
               className="mt-5 font-display text-4xl font-extrabold leading-[1.02] tracking-tight text-ink-900 sm:text-5xl"
               lines={["Opiniones de", "nuestros clientes."]}
             />

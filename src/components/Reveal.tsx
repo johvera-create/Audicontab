@@ -36,16 +36,18 @@ export function MaskLines({
   lines,
   className,
   stagger = 100,
+  as: Component = "div",
 }: {
   lines: ReactNode[];
   className?: string;
   stagger?: number;
+  as?: "h1" | "h2" | "h3" | "h4" | "p" | "div";
 }) {
   const { ref, inView } = useInView<HTMLDivElement>();
   const reduced = usePrefersReducedMotion();
   const shown = inView || reduced;
   return (
-    <div ref={ref} className={className}>
+    <Component ref={ref as any} className={className}>
       {lines.map((line, i) => (
         <span key={i} className="block overflow-hidden pb-[0.12em] -mb-[0.12em]">
           <span
@@ -60,7 +62,7 @@ export function MaskLines({
           </span>
         </span>
       ))}
-    </div>
+    </Component>
   );
 }
 

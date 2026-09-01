@@ -144,9 +144,10 @@ export default function Hero() {
           <Eyebrow tone="light">Asesoría contable &amp; tributaria · desde Quillota</Eyebrow>
 
           <h1
-            aria-label={title}
+            aria-label="Contadores en Quillota — Audicontab Limitada: Asesoría Contable y Tributaria"
             className="mt-7 font-display text-[2.85rem] font-extrabold leading-[1.02] tracking-tight text-paper-50 sm:text-6xl xl:text-[5.2rem]"
           >
+            <span className="sr-only">Contadores en Quillota — Audicontab Limitada Asesoría Contable y Tributaria</span>
             <span aria-hidden="true">{display}</span>
             <span aria-hidden="true" className="blink-caret ml-2 text-brass-400">
               _

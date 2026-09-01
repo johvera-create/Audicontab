@@ -45,6 +45,7 @@ export default function About() {
         <div>
           <Eyebrow>Quiénes somos</Eyebrow>
           <MaskLines
+            as="h2"
             className="mt-5 font-display text-4xl font-extrabold leading-[1.03] tracking-tight text-ink-900 sm:text-5xl"
             lines={["Contadores de oficio,", "cercanos por convicción."]}
           />

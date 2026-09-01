@@ -145,6 +145,7 @@ export default function Contact() {
       <div className="relative mx-auto max-w-7xl px-6">
         <Eyebrow>Contacto</Eyebrow>
         <MaskLines
+          as="h2"
           className="mt-5 font-display text-4xl font-extrabold leading-[1.02] tracking-tight text-ink-900 sm:text-5xl"
           lines={["Conversemos", "de tus números."]}
         />

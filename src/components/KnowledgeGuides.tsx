@@ -119,6 +119,7 @@ export default function KnowledgeGuides() {
           <div>
             <Eyebrow>Biblioteca Tributaria</Eyebrow>
             <MaskLines
+              as="h2"
               className="mt-3 font-display text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl"
               lines={["Guías prácticas para", "tu negocio y el SII."]}
             />

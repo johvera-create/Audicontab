@@ -126,6 +126,7 @@ export default function TaxHub() {
           <div className="lg:col-span-8">
             <Eyebrow tone="brass">Zona Tributaria & Herramientas</Eyebrow>
             <MaskLines
+              as="h2"
               className="mt-4 font-display text-3xl font-extrabold leading-[1.05] tracking-tight text-paper-50 sm:text-5xl"
               lines={["Todo lo que necesitas", "en un solo lugar."]}
             />

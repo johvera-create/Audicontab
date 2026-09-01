@@ -117,6 +117,7 @@ export default function PlanEstimator() {
         <div className="text-center max-w-2xl mx-auto">
           <Eyebrow tone="light">Cotizador Rápido</Eyebrow>
           <MaskLines
+            as="h2"
             className="mt-3 font-display text-3xl font-extrabold tracking-tight text-paper-50 sm:text-4xl"
             lines={["Descubre el plan ideal", "para tu negocio."]}
           />

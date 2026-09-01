@@ -53,6 +53,7 @@ export default function Faq() {
         <div className="text-center">
           <Eyebrow>Resolvemos tus dudas</Eyebrow>
           <MaskLines
+            as="h2"
             className="mt-4 font-display text-3xl font-extrabold leading-tight text-ink-900 sm:text-5xl"
             lines={["Preguntas Frecuentes", "sobre Contabilidad & SII"]}
           />
@@ -74,9 +75,9 @@ export default function Faq() {
                   aria-expanded={isOpen}
                   className="flex w-full items-center justify-between gap-4 py-6 text-left"
                 >
-                  <span className="font-display text-lg font-bold text-ink-900 sm:text-xl">
+                  <h3 className="font-display text-lg font-bold tracking-tight text-ink-900 sm:text-xl">
                     {item.q}
-                  </span>
+                  </h3>
                   <span
                     className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-transform duration-300 ${
                       isOpen
