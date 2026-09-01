@@ -82,6 +82,39 @@ const GUIDES: Guide[] = [
     },
   },
   {
+    id: "liquidaciones-de-sueldo-previred",
+    tag: "Remuneraciones & Nóminas",
+    readTime: "3 min lectura",
+    title: "Liquidaciones de Sueldo en Chile: Cálculo, Imposiciones y Previred",
+    summary:
+      "Aprende cómo calcular una liquidación de sueldo mensual: sueldo base, gratificación legal, descuentos previsionales (AFP, Fonasa/Isapre) y pago electrónico en Previred.",
+    keywords: "liquidaciones de sueldo, calcular liquidacion de sueldo chile, sueldo liquido a bruto, previred remuneraciones quillota",
+    content: {
+      intro:
+        "Calcular correctamente las liquidaciones de sueldo de tus trabajadores es fundamental para cumplir con el Código del Trabajo y evitar fiscalizaciones de la Dirección del Trabajo (DT) o multas en Previred.",
+      points: [
+        {
+          h: "1. Haberes Imponibles vs No Imponibles",
+          p: "Los haberes imponibles (sueldo base, horas extras, comisiones y gratificación legal del 25%) están afectos a cotizaciones previsionales. Los haberes no imponibles (colación, movilización y viáticos) se pagan íntegros al trabajador respetando los límites razonables que exige la ley.",
+        },
+        {
+          h: "2. Descuentos Previsionales Obligatorios",
+          p: "Sobre el total imponible se descuenta por ley: 10% obligatorio de pensión + comisión de la AFP (entre 0.49% y 1.44%), 7% de Salud (Fonasa o Isapre) y 0.6% de Seguro de Cesantía (para contratos indefinidos).",
+        },
+        {
+          h: "3. Aportes del Empleador (Costo Empresa)",
+          p: "El empleador debe costear adicionalmente el Seguro de Invalidez y Sobrevivencia (SIS), el Seguro de Accidentes del Trabajo (Mutual/ACHS) y el 2.4% del Seguro de Cesantía para contratos a plazo fijo o indefinido.",
+        },
+        {
+          h: "4. Plazo Fatal de Pago en Previred (Día 13)",
+          p: "Las cotizaciones previsionales se declaran y pagan a través de Previred a más tardar el día 13 de cada mes (cuando se paga vía electrónica). El atraso genera multas automáticas y reajustes.",
+        },
+      ],
+      tip: "En Audicontab confeccionamos las liquidaciones de sueldo mensuales de tu equipo, redactamos contratos de trabajo, gestionamos finiquitos en la DT y subimos las nóminas a Previred.",
+      ctaWhatsApp: "Hola Audicontab, me gustaría cotizar la gestión de liquidaciones de sueldo y Previred para mi empresa.",
+    },
+  },
+  {
     id: "pro-pyme-general-transparente",
     tag: "Régimen Tributario",
     readTime: "2 min lectura",
@@ -117,20 +150,20 @@ export default function KnowledgeGuides() {
         {/* Cabecera compacta */}
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <Eyebrow>Biblioteca Tributaria</Eyebrow>
+            <Eyebrow>Biblioteca Tributaria &amp; Laboral</Eyebrow>
             <MaskLines
               as="h2"
               className="mt-3 font-display text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl"
-              lines={["Guías prácticas para", "tu negocio y el SII."]}
+              lines={["Guías prácticas para", "tu negocio, sueldos y el SII."]}
             />
           </div>
           <p className="max-w-md text-sm leading-relaxed text-ink-600">
-            Respuestas directas a las dudas tributarias y contables más consultadas por dueños de Pymes en Chile.
+            Respuestas directas a las dudas tributarias, liquidaciones de sueldo y contables más consultadas por Pymes en Chile.
           </p>
         </div>
 
-        {/* Cuadrícula de 3 Tarjetas Limpias */}
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
+        {/* Cuadrícula Adaptativa de Tarjetas Limpias */}
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {GUIDES.map((g, idx) => (
             <Reveal key={g.id} delay={idx * 120} y={20}>
               <div className="group relative flex h-full flex-col justify-between border border-ink-900/15 bg-paper-100 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brass-500/80 hover:shadow-[0_16px_36px_-16px_rgba(27,58,92,0.3)]">
