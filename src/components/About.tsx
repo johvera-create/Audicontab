@@ -147,6 +147,10 @@ export default function About() {
                   <img
                     src="/galeria-exterior.jpg"
                     alt="Galería La Fuente Colonial - O'Higgins 480, Quillota"
+                    loading="lazy"
+                    decoding="async"
+                    width={800}
+                    height={600}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
@@ -174,6 +178,10 @@ export default function About() {
                   <img
                     src="/oficina-15.jpg"
                     alt="Oficina 15 - Audicontab Limitada"
+                    loading="lazy"
+                    decoding="async"
+                    width={800}
+                    height={600}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
