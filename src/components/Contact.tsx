@@ -78,7 +78,45 @@ export default function Contact() {
         origen: "Formulario Web audicontabltda.cl",
       };
 
-      // Disparar Webhook de n8n para automatizaciones
+      // 1. Envío directo al CRM PYME Flow (Leads y Reservas)
+      fetch("https://pymeflowapp.cl/api/v1/webhook/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": "pyme_flow_live_key_982347",
+        },
+        body: JSON.stringify({
+          name: form.nombre.trim(),
+          phone: form.telefono.trim(),
+          whatsapp: form.telefono.trim(),
+          email: form.email.trim(),
+          companyName: "Audicontab Contacto",
+          dealTitle: `Interés: ${form.servicio}`,
+          dealValue: 0,
+          notes: `Mensaje: ${form.mensaje.trim()} | Servicio: ${form.servicio}`,
+          source: "Formulario Web audicontabltda.cl",
+          orgSlug: "audicontab",
+        }),
+      }).catch(() => {
+        // Fallback a endpoint booking si corresponde
+        fetch("https://pymeflowapp.cl/api/v1/booking", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: form.nombre.trim(),
+            email: form.email.trim(),
+            phone: form.telefono.trim(),
+            serviceTitle: `Consulta Contable: ${form.servicio}`,
+            notes: `Mensaje: ${form.mensaje.trim()} | Origen: Formulario Web audicontabltda.cl`,
+            date: new Date().toISOString().split("T")[0],
+            time: "10:00",
+            price: 0,
+            orgSlug: "audicontab",
+          }),
+        }).catch(() => null);
+      });
+
+      // 2. Disparar Webhook de n8n para automatizaciones
       fetch(N8N_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -91,7 +129,7 @@ export default function Contact() {
         }).catch(() => null);
       });
 
-      // FormSubmit (AJAX) entrega el mensaje a CONTACT_EMAIL como respaldo
+      // 3. FormSubmit (AJAX) entrega el mensaje a CONTACT_EMAIL como respaldo
       const res = await fetch(CONTACT_FORM_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
