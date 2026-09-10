@@ -23,8 +23,8 @@ export const QUILLOTA_COORDS = "32.88° S / 71.26° O";
 export const CONTACT_EMAIL = "johanvera589@gmail.com";
 
 /** Webhook de n8n para automatización de leads */
-export const N8N_WEBHOOK_URL = "https://n8n-n8n.db8enk.easypanel.host/webhook/audicontab-contacto";
-export const N8N_WEBHOOK_TEST_URL = "https://n8n-n8n.db8enk.easypanel.host/webhook-test/audicontab-contacto";
+export const N8N_WEBHOOK_URL = "https://crm-n8n.tq9grx.easypanel.host/webhook/audicontab-contacto";
+export const N8N_WEBHOOK_TEST_URL = "https://crm-n8n.tq9grx.easypanel.host/webhook-test/audicontab-contacto";
 
 /** Base de datos en la nube Google Sheets para Reseñas en tiempo real */
 export const REVIEWS_API_ENDPOINT =
