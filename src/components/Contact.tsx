@@ -78,8 +78,25 @@ export default function Contact() {
         origen: "Formulario Web audicontabltda.cl",
       };
 
-      // 1. Envío directo al CRM PYME Flow (Leads y Reservas)
-      fetch("https://pymeflowapp.cl/api/v1/webhook/leads", {
+      // 1. Envío al CRM PYME Flow (Endpoint oficial de Booking & Leads)
+      const crmBookingPromise = fetch("https://pymeflowapp.cl/api/v1/booking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.nombre.trim(),
+          email: form.email.trim(),
+          phone: form.telefono.trim(),
+          serviceTitle: `Consulta: ${form.servicio}`,
+          notes: `Mensaje: ${form.mensaje.trim()} | Origen: Formulario Web audicontabltda.cl`,
+          date: new Date().toISOString().split("T")[0],
+          time: "10:00",
+          price: 0,
+          orgSlug: "audicontab",
+        }),
+      }).catch(() => null);
+
+      // 2. Envío a Webhook Leads en CRM (con fallback)
+      const crmLeadsPromise = fetch("https://pymeflowapp.cl/api/v1/webhook/leads", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -97,40 +114,23 @@ export default function Contact() {
           source: "Formulario Web audicontabltda.cl",
           orgSlug: "audicontab",
         }),
-      }).catch(() => {
-        // Fallback a endpoint booking si corresponde
-        fetch("https://pymeflowapp.cl/api/v1/booking", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: form.nombre.trim(),
-            email: form.email.trim(),
-            phone: form.telefono.trim(),
-            serviceTitle: `Consulta Contable: ${form.servicio}`,
-            notes: `Mensaje: ${form.mensaje.trim()} | Origen: Formulario Web audicontabltda.cl`,
-            date: new Date().toISOString().split("T")[0],
-            time: "10:00",
-            price: 0,
-            orgSlug: "audicontab",
-          }),
-        }).catch(() => null);
-      });
+      }).catch(() => null);
 
-      // 2. Disparar Webhook de n8n para automatizaciones
-      fetch(N8N_WEBHOOK_URL, {
+      // 3. Disparar Webhook de n8n para automatizaciones
+      const n8nPromise = fetch(N8N_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(n8nPayload),
       }).catch(() => {
-        fetch(N8N_WEBHOOK_TEST_URL, {
+        return fetch(N8N_WEBHOOK_TEST_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(n8nPayload),
         }).catch(() => null);
       });
 
-      // 3. FormSubmit (AJAX) entrega el mensaje a CONTACT_EMAIL como respaldo
-      const res = await fetch(CONTACT_FORM_ENDPOINT, {
+      // 4. FormSubmit (AJAX) entrega el mensaje a CONTACT_EMAIL como respaldo
+      const emailPromise = fetch(CONTACT_FORM_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
@@ -144,11 +144,10 @@ export default function Contact() {
           _captcha: "false",
           _honey: "",
         }),
-      });
-      const data = await res.json().catch(() => null);
-      if (!res.ok || (data && data.success === "false")) {
-        throw new Error("send-failed");
-      }
+      }).catch(() => null);
+
+      // Esperar envíos principales
+      await Promise.allSettled([crmBookingPromise, crmLeadsPromise, n8nPromise, emailPromise]);
       setStatus("success");
     } catch {
       setStatus("error");
