@@ -123,8 +123,95 @@ export default function About() {
           <AuditSeal className="absolute -bottom-10 -right-4 h-32 w-32 text-brass-500 drop-shadow-lg md:-right-8 md:h-40 md:w-40" />
         </div>
 
-        {/* Galería / Nuestras Oficinas en Quillota */}
+        {/* Equipo Profesional y Liderazgo */}
         <div className="mt-14 border-t border-ink-900/10 pt-12 lg:col-span-2">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+              <span className="inline-block border border-brass-500/40 bg-brass-400/15 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-brass-600">
+                Equipo Profesional
+              </span>
+              <h3 className="mt-2.5 font-display text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
+                Profesionales dedicadas a tus números
+              </h3>
+            </div>
+            <p className="max-w-md text-[14.5px] leading-relaxed text-ink-600">
+              Detrás de cada balance y declaración hay un equipo humano comprometido con la tranquilidad tributaria de tu empresa.
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-8 sm:grid-cols-2">
+            {/* Priscilla Flores */}
+            <Reveal delay={100} y={20}>
+              <div className="group relative overflow-hidden border border-ink-900/15 bg-paper-50 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-brass-500/60 hover:shadow-xl">
+                <div className="aspect-[4/3] overflow-hidden bg-ink-950 sm:aspect-[4/3.2]">
+                  <img
+                    src="/priscilla-flores.jpg"
+                    alt="Priscilla Flores - Socia Fundadora y Directora de Audicontab"
+                    loading="lazy"
+                    decoding="async"
+                    width={800}
+                    height={600}
+                    className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-2 w-2 rounded-full bg-brass-500" />
+                    <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-brass-600">
+                      Socia Fundadora & Directora
+                    </p>
+                  </div>
+                  <h4 className="mt-2 font-display text-xl font-bold text-ink-900">
+                    Priscilla Flores
+                  </h4>
+                  <p className="mt-1 font-mono text-[11px] font-medium uppercase tracking-wider text-ink-500">
+                    Auditoría · Planificación Tributaria · Renta F22
+                  </p>
+                  <p className="mt-3 text-[14px] leading-relaxed text-ink-700">
+                    Líder de Audicontab con amplia trayectoria asesorando a pymes y personas en la V Región. Entrega una visión estratégica integral para optimizar la carga impositiva y asegurar el estricto cumplimiento ante el SII.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Paula Jerez */}
+            <Reveal delay={200} y={20}>
+              <div className="group relative overflow-hidden border border-ink-900/15 bg-paper-50 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-brass-500/60 hover:shadow-xl">
+                <div className="aspect-[4/3] overflow-hidden bg-ink-950 sm:aspect-[4/3.2]">
+                  <img
+                    src="/paula-jerez.jpg"
+                    alt="Paula Jerez - Contadora y Jefa de Operaciones Contables en Audicontab"
+                    loading="lazy"
+                    decoding="async"
+                    width={800}
+                    height={600}
+                    className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-2 w-2 rounded-full bg-[#22c55e]" />
+                    <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-brass-600">
+                      Contadora & Jefa de Operaciones
+                    </p>
+                  </div>
+                  <h4 className="mt-2 font-display text-xl font-bold text-ink-900">
+                    Paula Jerez
+                  </h4>
+                  <p className="mt-1 font-mono text-[11px] font-medium uppercase tracking-wider text-ink-500">
+                    F29 Mensual · Remuneraciones Previred · Facturación
+                  </p>
+                  <p className="mt-3 text-[14px] leading-relaxed text-ink-700">
+                    Especialista en la gestión contable y laboral del día a día. Coordina conciliaciones tributarias, liquidaciones de sueldo y declaraciones de IVA para que cada cliente opere con sus libros y pagos 100% al día.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+
+        {/* Galería / Nuestras Oficinas en Quillota */}
+        <div className="mt-8 border-t border-ink-900/10 pt-12 lg:col-span-2">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
               <span className="inline-block border border-brass-500/40 bg-brass-400/15 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-brass-600">
