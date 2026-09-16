@@ -1,6 +1,7 @@
 import { CONTACT_EMAIL } from "../data/site";
 import { CheckIcon, MailIcon } from "./icons";
 import { Eyebrow, MaskLines, Reveal, Stat } from "./Reveal";
+import TiltCard from "./TiltCard";
 
 const VALUES = [
   "Atención personalizada, no call center",
@@ -142,70 +143,74 @@ export default function About() {
           <div className="mt-8 grid gap-8 sm:grid-cols-2">
             {/* Priscilla Flores */}
             <Reveal delay={100} y={20}>
-              <div className="group relative overflow-hidden border border-ink-900/15 bg-paper-50 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-brass-500/60 hover:shadow-xl">
-                <div className="aspect-[4/3] overflow-hidden bg-ink-950 sm:aspect-[4/3.2]">
-                  <img
-                    src="/priscilla-flores.jpg"
-                    alt="Priscilla Flores - Socia Fundadora y Directora de Audicontab"
-                    loading="lazy"
-                    decoding="async"
-                    width={800}
-                    height={600}
-                    className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2">
-                    <span className="flex h-2 w-2 rounded-full bg-brass-500" />
-                    <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-brass-600">
-                      Socia Fundadora & Directora
+              <TiltCard maxTilt={5} scale={1.015} glare={true} className="h-full">
+                <div className="group relative h-full overflow-hidden border border-ink-900/15 bg-paper-50 shadow-md transition-all duration-300 hover:border-brass-500/60 hover:shadow-xl">
+                  <div className="aspect-[4/3] overflow-hidden bg-ink-950 sm:aspect-[4/3.2]">
+                    <img
+                      src="/priscilla-flores.jpg"
+                      alt="Priscilla Flores - Socia Fundadora y Directora de Audicontab"
+                      loading="lazy"
+                      decoding="async"
+                      width={800}
+                      height={600}
+                      className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-2 w-2 rounded-full bg-brass-500" />
+                      <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-brass-600">
+                        Socia Fundadora & Directora
+                      </p>
+                    </div>
+                    <h4 className="mt-2 font-display text-xl font-bold text-ink-900">
+                      Priscilla Flores
+                    </h4>
+                    <p className="mt-1 font-mono text-[11px] font-medium uppercase tracking-wider text-ink-500">
+                      Auditoría · Planificación Tributaria · Renta F22
+                    </p>
+                    <p className="mt-3 text-[14px] leading-relaxed text-ink-700">
+                      Líder de Audicontab con amplia trayectoria asesorando a pymes y personas en la V Región. Entrega una visión estratégica integral para optimizar la carga impositiva y asegurar el estricto cumplimiento ante el SII.
                     </p>
                   </div>
-                  <h4 className="mt-2 font-display text-xl font-bold text-ink-900">
-                    Priscilla Flores
-                  </h4>
-                  <p className="mt-1 font-mono text-[11px] font-medium uppercase tracking-wider text-ink-500">
-                    Auditoría · Planificación Tributaria · Renta F22
-                  </p>
-                  <p className="mt-3 text-[14px] leading-relaxed text-ink-700">
-                    Líder de Audicontab con amplia trayectoria asesorando a pymes y personas en la V Región. Entrega una visión estratégica integral para optimizar la carga impositiva y asegurar el estricto cumplimiento ante el SII.
-                  </p>
                 </div>
-              </div>
+              </TiltCard>
             </Reveal>
 
             {/* Paula Jerez */}
             <Reveal delay={200} y={20}>
-              <div className="group relative overflow-hidden border border-ink-900/15 bg-paper-50 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-brass-500/60 hover:shadow-xl">
-                <div className="aspect-[4/3] overflow-hidden bg-ink-950 sm:aspect-[4/3.2]">
-                  <img
-                    src="/paula-jerez.jpg"
-                    alt="Paula Jerez - Contadora y Jefa de Operaciones Contables en Audicontab"
-                    loading="lazy"
-                    decoding="async"
-                    width={800}
-                    height={600}
-                    className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2">
-                    <span className="flex h-2 w-2 rounded-full bg-[#22c55e]" />
-                    <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-brass-600">
-                      Contadora & Jefa de Operaciones
+              <TiltCard maxTilt={5} scale={1.015} glare={true} className="h-full">
+                <div className="group relative h-full overflow-hidden border border-ink-900/15 bg-paper-50 shadow-md transition-all duration-300 hover:border-brass-500/60 hover:shadow-xl">
+                  <div className="aspect-[4/3] overflow-hidden bg-ink-950 sm:aspect-[4/3.2]">
+                    <img
+                      src="/paula-jerez.jpg"
+                      alt="Paula Jerez - Contadora y Jefa de Operaciones Contables en Audicontab"
+                      loading="lazy"
+                      decoding="async"
+                      width={800}
+                      height={600}
+                      className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-2 w-2 rounded-full bg-[#22c55e]" />
+                      <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-brass-600">
+                        Contadora & Jefa de Operaciones
+                      </p>
+                    </div>
+                    <h4 className="mt-2 font-display text-xl font-bold text-ink-900">
+                      Paula Jerez
+                    </h4>
+                    <p className="mt-1 font-mono text-[11px] font-medium uppercase tracking-wider text-ink-500">
+                      F29 Mensual · Remuneraciones Previred · Facturación
+                    </p>
+                    <p className="mt-3 text-[14px] leading-relaxed text-ink-700">
+                      Especialista en la gestión contable y laboral del día a día. Coordina conciliaciones tributarias, liquidaciones de sueldo y declaraciones de IVA para que cada cliente opere con sus libros y pagos 100% al día.
                     </p>
                   </div>
-                  <h4 className="mt-2 font-display text-xl font-bold text-ink-900">
-                    Paula Jerez
-                  </h4>
-                  <p className="mt-1 font-mono text-[11px] font-medium uppercase tracking-wider text-ink-500">
-                    F29 Mensual · Remuneraciones Previred · Facturación
-                  </p>
-                  <p className="mt-3 text-[14px] leading-relaxed text-ink-700">
-                    Especialista en la gestión contable y laboral del día a día. Coordina conciliaciones tributarias, liquidaciones de sueldo y declaraciones de IVA para que cada cliente opere con sus libros y pagos 100% al día.
-                  </p>
                 </div>
-              </div>
+              </TiltCard>
             </Reveal>
           </div>
         </div>
@@ -229,64 +234,68 @@ export default function About() {
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             {/* Foto 1: Fachada Colonial */}
             <Reveal delay={100} y={20}>
-              <div className="group relative overflow-hidden border border-ink-900/15 bg-paper-50 shadow-md transition-all duration-300 hover:shadow-xl">
-                <div className="aspect-[4/3] overflow-hidden bg-ink-950">
-                  <img
-                    src="/galeria-exterior.jpg"
-                    alt="Galería La Fuente Colonial - O'Higgins 480, Quillota"
-                    loading="lazy"
-                    decoding="async"
-                    width={800}
-                    height={600}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-4 sm:p-5">
-                  <div className="flex items-center gap-2">
-                    <span className="flex h-2 w-2 rounded-full bg-brass-500" />
-                    <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-brass-600">
-                      Entrada Principal · O'Higgins 480
+              <TiltCard maxTilt={4} scale={1.01} glare={true}>
+                <div className="group relative overflow-hidden border border-ink-900/15 bg-paper-50 shadow-md transition-all duration-300 hover:shadow-xl">
+                  <div className="aspect-[4/3] overflow-hidden bg-ink-950">
+                    <img
+                      src="/galeria-exterior.jpg"
+                      alt="Galería La Fuente Colonial - O'Higgins 480, Quillota"
+                      loading="lazy"
+                      decoding="async"
+                      width={800}
+                      height={600}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-4 sm:p-5">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-2 w-2 rounded-full bg-brass-500" />
+                      <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-brass-600">
+                        Entrada Principal · O'Higgins 480
+                      </p>
+                    </div>
+                    <p className="mt-1 font-display text-base font-bold text-ink-900">
+                      Galería La Fuente Colonial
+                    </p>
+                    <p className="mt-1 text-xs text-ink-600">
+                      Fachada colonial en pleno centro de Quillota, con cafetería y fácil acceso.
                     </p>
                   </div>
-                  <p className="mt-1 font-display text-base font-bold text-ink-900">
-                    Galería La Fuente Colonial
-                  </p>
-                  <p className="mt-1 text-xs text-ink-600">
-                    Fachada colonial en pleno centro de Quillota, con cafetería y fácil acceso.
-                  </p>
                 </div>
-              </div>
+              </TiltCard>
             </Reveal>
 
             {/* Foto 2: Oficina 15 */}
             <Reveal delay={200} y={20}>
-              <div className="group relative overflow-hidden border border-ink-900/15 bg-paper-50 shadow-md transition-all duration-300 hover:shadow-xl">
-                <div className="aspect-[4/3] overflow-hidden bg-ink-950">
-                  <img
-                    src="/oficina-15.jpg"
-                    alt="Oficina 15 - Audicontab Limitada"
-                    loading="lazy"
-                    decoding="async"
-                    width={800}
-                    height={600}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-4 sm:p-5">
-                  <div className="flex items-center gap-2">
-                    <span className="flex h-2 w-2 rounded-full bg-[#22c55e]" />
-                    <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-brass-600">
-                      Oficina 15 · Audicontab Limitada
+              <TiltCard maxTilt={4} scale={1.01} glare={true}>
+                <div className="group relative overflow-hidden border border-ink-900/15 bg-paper-50 shadow-md transition-all duration-300 hover:shadow-xl">
+                  <div className="aspect-[4/3] overflow-hidden bg-ink-950">
+                    <img
+                      src="/oficina-15.jpg"
+                      alt="Oficina 15 - Audicontab Limitada"
+                      loading="lazy"
+                      decoding="async"
+                      width={800}
+                      height={600}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-4 sm:p-5">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-2 w-2 rounded-full bg-[#22c55e]" />
+                      <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-brass-600">
+                        Oficina 15 · Audicontab Limitada
+                      </p>
+                    </div>
+                    <p className="mt-1 font-display text-base font-bold text-ink-900">
+                      Atención Personalizada y Privada
+                    </p>
+                    <p className="mt-1 text-xs text-ink-600">
+                      Espacio tranquilo y cómodo para revisar la contabilidad e impuestos de tu negocio.
                     </p>
                   </div>
-                  <p className="mt-1 font-display text-base font-bold text-ink-900">
-                    Atención Personalizada y Privada
-                  </p>
-                  <p className="mt-1 text-xs text-ink-600">
-                    Espacio tranquilo y cómodo para revisar la contabilidad e impuestos de tu negocio.
-                  </p>
                 </div>
-              </div>
+              </TiltCard>
             </Reveal>
           </div>
         </div>

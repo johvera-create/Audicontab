@@ -243,6 +243,67 @@ body {
   background-size: 100% 1.5px;
 }
 
+/* ---- 3D & Modern Motion Utilities ---- */
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1deg);
+  }
+}
+
+@keyframes float-reverse {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(10px) rotate(-1deg);
+  }
+}
+
+@keyframes float-badge {
+  0%, 100% {
+    transform: translateY(0px) translateZ(30px);
+  }
+  50% {
+    transform: translateY(-8px) translateZ(45px);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: float-reverse 6s ease-in-out infinite;
+}
+
+.animate-float-badge {
+  animation: float-badge 5s ease-in-out infinite;
+}
+
+.glass-card {
+  background: rgba(10, 25, 47, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 50px -18px rgba(2, 6, 23, 0.75);
+}
+
+.glass-card-light {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(10, 25, 47, 0.08);
+  box-shadow: 0 20px 40px -15px rgba(10, 25, 47, 0.1);
+}
+
+.brass-glow {
+  box-shadow: 0 0 40px -10px rgba(59, 130, 246, 0.45);
+}
+
 /* ---- Reduced motion ---- */
 
 @media (prefers-reduced-motion: reduce) {

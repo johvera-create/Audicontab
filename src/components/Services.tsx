@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SERVICES } from "../data/site";
 import { SERVICE_ICONS, ArrowIcon, CheckIcon, PlusIcon } from "./icons";
 import { Eyebrow, MaskLines } from "./Reveal";
+import TiltCard from "./TiltCard";
 
 export default function Services() {
   const [openIdx, setOpenIdx] = useState<number>(0);
@@ -37,34 +38,36 @@ export default function Services() {
         </div>
 
         <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-10">
-          {/* Panel fijo */}
+          {/* Panel fijo con 3D Tilt */}
           <div className="hidden lg:col-span-4 lg:block">
             <div className="sticky top-32">
               <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-ink-500">
                 Partida seleccionada
               </p>
-              <div
-                key={active.id}
-                className="quote-in mt-4 border-l-4 border-brass-500 bg-ink-900 px-8 py-9 text-paper-50"
-              >
-                <div className="flex items-start justify-between">
-                  <span className="tabular font-display text-7xl font-extrabold leading-none text-brass-400">
-                    {String(resolvedIdx + 1).padStart(2, "0")}
-                  </span>
-                  <ActiveIcon className="h-9 w-9 text-mist-400" />
+              <TiltCard maxTilt={5} scale={1.01} glare={true} className="mt-4">
+                <div
+                  key={active.id}
+                  className="quote-in border-l-4 border-brass-500 bg-ink-900 px-8 py-9 text-paper-50 shadow-2xl"
+                >
+                  <div className="flex items-start justify-between">
+                    <span className="tabular font-display text-7xl font-extrabold leading-none text-brass-400">
+                      {String(resolvedIdx + 1).padStart(2, "0")}
+                    </span>
+                    <ActiveIcon className="h-9 w-9 text-mist-400" />
+                  </div>
+                  <h3 className="mt-5 font-display text-2xl font-bold leading-snug">{active.title}</h3>
+                  <p className="mt-3 text-[14.5px] leading-relaxed text-mist-300">{active.desc}</p>
+                  <div className="mt-6 h-[3px] w-full bg-ink-700">
+                    <div
+                      className="h-full bg-brass-400 transition-[width] duration-500"
+                      style={{ width: `${((resolvedIdx + 1) / SERVICES.length) * 100}%` }}
+                    />
+                  </div>
+                  <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.24em] text-mist-500">
+                    {active.code} · Audicontab Ltda.
+                  </p>
                 </div>
-                <h3 className="mt-5 font-display text-2xl font-bold leading-snug">{active.title}</h3>
-                <p className="mt-3 text-[14.5px] leading-relaxed text-mist-300">{active.desc}</p>
-                <div className="mt-6 h-[3px] w-full bg-ink-700">
-                  <div
-                    className="h-full bg-brass-400 transition-[width] duration-500"
-                    style={{ width: `${((resolvedIdx + 1) / SERVICES.length) * 100}%` }}
-                  />
-                </div>
-                <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.24em] text-mist-500">
-                  {active.code} · Audicontab Ltda.
-                </p>
-              </div>
+              </TiltCard>
             </div>
           </div>
 
