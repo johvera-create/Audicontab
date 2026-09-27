@@ -13,6 +13,7 @@ import { useCountUp, useInView, useScramble } from "../hooks/useMotion";
 import { ArrowIcon, CheckIcon, WhatsAppIcon } from "./icons";
 import { Eyebrow, Stat } from "./Reveal";
 import TiltCard from "./TiltCard";
+import BorderBeam from "./BorderBeam";
 
 function daysLabel(n: number) {
   if (n <= 0) return "HOY";
@@ -56,7 +57,8 @@ function LedgerCard() {
           aria-hidden="true"
           className="absolute inset-0 translate-x-4 translate-y-4 border-2 border-brass-400/45"
         />
-        <div className="relative -rotate-[1.2deg] bg-paper-50 text-ink-900 shadow-[0_32px_70px_-24px_rgba(4,12,22,0.85)] transition-transform duration-700 hover:rotate-0">
+        <div className="relative -rotate-[1.2deg] overflow-hidden bg-paper-50 text-ink-900 shadow-[0_32px_70px_-24px_rgba(4,12,22,0.85)] transition-transform duration-700 hover:rotate-0">
+          <BorderBeam size={240} duration={8} colorFrom="#2563eb" colorTo="#e5ad43" borderWidth={2} />
           {/* cabecera del libro */}
           <div className="flex items-center justify-between border-b-2 border-ink-900 px-6 py-4">
             <div>

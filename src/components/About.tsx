@@ -2,6 +2,7 @@ import { CONTACT_EMAIL } from "../data/site";
 import { CheckIcon, MailIcon } from "./icons";
 import { Eyebrow, MaskLines, Reveal, Stat } from "./Reveal";
 import TiltCard from "./TiltCard";
+import BorderBeam from "./BorderBeam";
 
 const VALUES = [
   "Atención personalizada, no call center",
@@ -145,6 +146,7 @@ export default function About() {
             <Reveal delay={100} y={20}>
               <TiltCard maxTilt={5} scale={1.015} glare={true} className="h-full">
                 <div className="group relative h-full overflow-hidden border border-ink-900/15 bg-paper-50 shadow-md transition-all duration-300 hover:border-brass-500/60 hover:shadow-xl">
+                  <BorderBeam size={200} duration={10} colorFrom="#e5ad43" colorTo="#3b82f6" borderWidth={1.5} />
                   <div className="aspect-[4/3] overflow-hidden bg-ink-950 sm:aspect-[4/3.2]">
                     <img
                       src="/priscilla-flores.jpg"
@@ -181,6 +183,7 @@ export default function About() {
             <Reveal delay={200} y={20}>
               <TiltCard maxTilt={5} scale={1.015} glare={true} className="h-full">
                 <div className="group relative h-full overflow-hidden border border-ink-900/15 bg-paper-50 shadow-md transition-all duration-300 hover:border-brass-500/60 hover:shadow-xl">
+                  <BorderBeam size={200} duration={10} colorFrom="#22c55e" colorTo="#3b82f6" borderWidth={1.5} delay={4} />
                   <div className="aspect-[4/3] overflow-hidden bg-ink-950 sm:aspect-[4/3.2]">
                     <img
                       src="/paula-jerez.jpg"
