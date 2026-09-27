@@ -8,7 +8,7 @@ export default function Header() {
   const scrolled = useScrollTop(48);
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className="sticky top-0 z-50 border-b border-paper-50/10 bg-ink-950/95 shadow-lg backdrop-blur-xl transition-all duration-300">
       {/* Franja informativa */}
       <div className="hidden border-b border-paper-50/10 bg-ink-950 sm:block">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.18em] text-mist-400">
@@ -22,22 +22,18 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Navegación estilo 21st.dev Glass Pill */}
-      <nav className="transition-all duration-500 px-4 sm:px-6">
-        <div
-          className={`mx-auto flex items-center justify-between transition-all duration-500 ${
-            scrolled
-              ? "max-w-6xl rounded-full border border-paper-50/15 bg-ink-950/85 px-6 py-2.5 shadow-[0_16px_36px_-10px_rgba(4,12,24,0.9)] backdrop-blur-xl mt-3"
-              : "max-w-7xl border-b border-transparent bg-transparent py-3.5"
-          }`}
-        >
+      {/* Navegación Principal */}
+      <nav className="px-4 sm:px-6">
+        <div className="mx-auto flex max-w-7xl items-center justify-between py-3">
           <a href="#inicio" className="group flex items-center gap-3" onClick={() => setOpen(false)}>
-            <LogoMark className="h-10 w-10 transition-transform duration-500 group-hover:-rotate-6" />
-            <span className="leading-none">
-              <span className="block font-display text-lg font-extrabold tracking-tight text-paper-50">
+            <div className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-brass-400/40 bg-ink-900 shadow-md">
+              <LogoMark className="h-full w-full object-contain" />
+            </div>
+            <span className="leading-tight">
+              <span className="block font-display text-lg font-black tracking-tight text-paper-50">
                 AUDICONTAB
               </span>
-              <span className="mt-1 block font-mono text-[9.5px] uppercase tracking-[0.3em] text-brass-300">
+              <span className="block font-mono text-[9.5px] font-bold uppercase tracking-[0.24em] text-brass-400">
                 Ltda · Quillota
               </span>
             </span>
@@ -66,14 +62,14 @@ export default function Header() {
             </a>
 
             <button
-              className="flex h-11 w-11 flex-col items-center justify-center gap-[5px] border border-paper-50/20 transition-colors hover:border-brass-400 lg:hidden"
+              className="flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-lg border border-brass-400/30 bg-ink-900/90 transition-all hover:border-brass-400 active:scale-95 lg:hidden"
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
               aria-label="Abrir menú"
             >
               <span
-                className={`h-[2px] w-5 bg-paper-50 transition-all duration-300 ${
-                  open ? "translate-y-[7px] rotate-45" : ""
+                className={`h-[2px] w-5 bg-brass-300 transition-all duration-300 ${
+                  open ? "translate-y-[7px] rotate-45 bg-brass-400" : ""
                 }`}
               />
               <span
@@ -82,23 +78,23 @@ export default function Header() {
                 }`}
               />
               <span
-                className={`h-[2px] w-5 bg-paper-50 transition-all duration-300 ${
-                  open ? "-translate-y-[7px] -rotate-45" : ""
+                className={`h-[2px] w-5 bg-brass-300 transition-all duration-300 ${
+                  open ? "-translate-y-[7px] -rotate-45 bg-brass-400" : ""
                 }`}
               />
             </button>
           </div>
         </div>
 
-        {/* Menú móvil optimizado para celulares */}
+        {/* Menú móvil */}
         <div
           className={`overflow-hidden transition-all duration-500 lg:hidden ${
             open
-              ? "max-h-[460px] border border-paper-50/15 bg-ink-950/95 shadow-2xl backdrop-blur-2xl mt-2 rounded-2xl"
-              : "max-h-0 border-transparent bg-transparent"
+              ? "max-h-[460px] border-t border-paper-50/10 bg-ink-950 pb-4 pt-2 shadow-2xl"
+              : "max-h-0"
           }`}
         >
-          <ul className="px-6 py-4">
+          <ul className="space-y-1">
             {NAV.map((item, i) => (
               <li key={item.href} className={i > 0 ? "border-t border-paper-50/10" : ""}>
                 <a
@@ -107,7 +103,7 @@ export default function Header() {
                   className="flex items-center justify-between py-3.5 font-mono text-sm uppercase tracking-[0.2em] text-paper-100 hover:text-brass-300"
                 >
                   {item.label}
-                  <span className="font-mono text-[10px] text-mist-500">0{i + 1}</span>
+                  <span className="font-mono text-[10px] text-brass-400">0{i + 1}</span>
                 </a>
               </li>
             ))}
@@ -115,7 +111,7 @@ export default function Header() {
               <a
                 href="#contacto"
                 onClick={() => setOpen(false)}
-                className="flex items-center justify-center gap-2 bg-brass-400 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-950"
+                className="flex items-center justify-center gap-2 bg-brass-400 px-5 py-3.5 font-mono text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-950"
               >
                 Agenda una reunión <ArrowIcon className="h-4 w-4" />
               </a>
