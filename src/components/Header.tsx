@@ -22,15 +22,15 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Navegación */}
-      <nav
-        className={`border-b transition-all duration-500 ${
-          scrolled
-            ? "border-paper-50/10 bg-ink-900/95 shadow-[0_12px_40px_-18px_rgba(7,20,34,0.8)] backdrop-blur-md"
-            : "border-transparent bg-ink-900/40"
-        }`}
-      >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
+      {/* Navegación estilo 21st.dev Glass Pill */}
+      <nav className="transition-all duration-500 px-4 sm:px-6">
+        <div
+          className={`mx-auto flex items-center justify-between transition-all duration-500 ${
+            scrolled
+              ? "max-w-6xl rounded-full border border-paper-50/15 bg-ink-950/85 px-6 py-2.5 shadow-[0_16px_36px_-10px_rgba(4,12,24,0.9)] backdrop-blur-xl mt-3"
+              : "max-w-7xl border-b border-transparent bg-transparent py-3.5"
+          }`}
+        >
           <a href="#inicio" className="group flex items-center gap-3" onClick={() => setOpen(false)}>
             <LogoMark className="h-10 w-10 transition-transform duration-500 group-hover:-rotate-6" />
             <span className="leading-none">

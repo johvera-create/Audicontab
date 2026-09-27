@@ -17,12 +17,28 @@ export default function WhatsAppFloat() {
           visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"
         }`}
       >
-        <span className="pointer-events-none absolute right-full top-1/2 mr-3.5 -translate-y-1/2 whitespace-nowrap border border-brass-400/40 bg-ink-950 px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-brass-300 opacity-0 shadow-xl transition-all duration-300 group-hover:opacity-100 group-hover:-translate-x-1">
-          ¿Conversamos? WhatsApp
-        </span>
-        <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#25d366] text-white shadow-[0_10px_25px_-5px_rgba(37,211,102,0.6)] transition-all duration-300 group-hover:scale-110 active:scale-95">
+        {/* Tooltip estilo 21st.dev con Live Status */}
+        <div className="pointer-events-none absolute bottom-full right-0 mb-3 hidden w-64 rounded-2xl border border-paper-50/15 bg-ink-950/90 p-3.5 shadow-2xl backdrop-blur-xl transition-all duration-300 group-hover:block group-hover:-translate-y-1">
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="pulse-ring absolute inline-flex h-full w-full bg-[#22c55e]" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#22c55e]" />
+            </span>
+            <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#22c55e]">
+              En línea ahora
+            </span>
+          </div>
+          <p className="mt-1.5 font-display text-xs font-semibold text-paper-50">
+            ¿Dudas con tu F29 o Renta?
+          </p>
+          <p className="mt-0.5 text-[11px] text-mist-400">
+            Habla directo con Priscilla o Paula por WhatsApp.
+          </p>
+        </div>
+
+        <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#25d366] text-white shadow-[0_10px_30px_-5px_rgba(37,211,102,0.7)] transition-all duration-300 group-hover:scale-110 active:scale-95">
           <span className="pulse-ring absolute inset-0 rounded-full bg-[#25d366]/50" aria-hidden="true" />
-          <WhatsAppIcon className="relative h-8 w-8 text-white fill-white" />
+          <WhatsAppIcon className="relative h-7 w-7 text-white fill-white" />
         </span>
       </a>
 
