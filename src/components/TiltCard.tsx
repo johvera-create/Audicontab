@@ -23,6 +23,8 @@ export default function TiltCard({
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    // Si la pantalla es táctil o no tiene hover fino (móvil), no inclinar para no interferir con el scroll
+    if (window.matchMedia && !window.matchMedia("(hover: hover)").matches) return;
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;

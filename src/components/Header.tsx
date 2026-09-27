@@ -90,10 +90,12 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Menú móvil */}
+        {/* Menú móvil optimizado para celulares */}
         <div
-          className={`overflow-hidden border-paper-50/10 bg-ink-900/97 transition-[max-height] duration-500 lg:hidden ${
-            open ? "max-h-[420px] border-t" : "max-h-0"
+          className={`overflow-hidden transition-all duration-500 lg:hidden ${
+            open
+              ? "max-h-[460px] border border-paper-50/15 bg-ink-950/95 shadow-2xl backdrop-blur-2xl mt-2 rounded-2xl"
+              : "max-h-0 border-transparent bg-transparent"
           }`}
         >
           <ul className="px-6 py-4">
